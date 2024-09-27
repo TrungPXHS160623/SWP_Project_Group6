@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
+    <servlet-mapping>
+        <servlet-name>HomeControl</servlet-name>
+        <url-pattern>/home</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>LoadData</servlet-name>
+        <servlet-class>control.LoadData</servlet-class>
+    </servlet>
+    <!-- Thêm cấu hình cho AddProduct servlet -->
+    <servlet>
+        <servlet-name>AddProduct</servlet-name>
+        <servlet-class>control.AddProduct</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddProduct</servlet-name>
+        <url-pattern>/add</url-pattern>
+    </servlet-mapping>
+    <!-- Thêm cấu hình cho CategoryControl servlet -->
+    <servlet>
+        <servlet-name>CategoryControl</servlet-name>
+        <servlet-class>control.CategoryControl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CategoryControl</servlet-name>
+        <url-pattern>/category</url-pattern>
+    </servlet-mapping>
+    <!-- Thêm cấu hình cho DeleteProduct servlet -->
+    <servlet>
+        <servlet-name>DeleteProduct</servlet-name>
+        <servlet-class>control.DeleteProduct</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteProduct</servlet-name>
+        <url-pattern>/delete</url-pattern>
+    </servlet-mapping>
+    <!-- Thêm cấu hình cho DetailControl servlet -->
+    <servlet>
+        <servlet-name>DetailControl</servlet-name>
+        <servlet-class>control.DetailControl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DetailControl</servlet-name>
+        <url-pattern>/detail</url-pattern>
+    </servlet-mapping>
+    <!-- Thêm cấu hình cho HomeControl servlet -->
+    <servlet>
+        <servlet-name>HomeControl</servlet-name>
+        <servlet-class>control.HomeControl</servlet-class>
+    </servlet>
+    <!-- Thêm cấu hình cho ManagerProductControl servlet -->
+    <servlet>
+        <servlet-name>ManagerProductControl</servlet-name>
+        <servlet-class>control.ManagerProductControl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ManagerProductControl</servlet-name>
+        <url-pattern>/manager</url-pattern>
+    </servlet-mapping>
+    <!-- Thêm cấu hình cho SearchControl servlet -->
+    <servlet>
+        <servlet-name>SearchControl</servlet-name>
+        <servlet-class>control.SearchControl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SearchControl</servlet-name>
+        <url-pattern>/search</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoadData</servlet-name>
+        <url-pattern>/load</url-pattern>
+    </servlet-mapping>
+</web-app>
