@@ -3,7 +3,7 @@
     Created on : Sep 25, 2024
     Author     : Acer
 --%>
-
+<%@ page import="java.util.List" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -78,37 +78,54 @@
         </style>
     </head>
     <body>
+        <% 
+    List<String> addErrors = (List<String>) session.getAttribute("addErrors");
+    if (addErrors != null && !addErrors.isEmpty()) {
+        %>
+        <div class="alert alert-danger" style="padding: 15px; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 5px; margin-bottom: 20px;">
+            <h4 style="font-weight: bold; margin-bottom: 10px; color: #721c24;"><i class="fas fa-exclamation-circle"></i> Đã xảy ra lỗi:</h4>
+            <ul style="list-style-type: disc; padding-left: 20px;">
+                <c:forEach var="error" items="${addErrors}">
+                    <li style="margin-bottom: 5px;">${error}</li>
+                    </c:forEach>
+            </ul>
+        </div>
+        <%
+                // Xóa thông báo lỗi sau khi hiển thị
+                session.removeAttribute("addErrors");
+            }
+        %>
 
         <div class="container">
             <h1>Thêm Sản Phẩm</h1>
             <form action="add" method="post">
                 <div class="form-group">
                     <label for="productName">Tên Sản Phẩm</label>
-                    <input id="productName" name="productName" type="text" required>
+                    <input id="productName" name="productName" type="text">
                 </div>
                 <div class="form-group">
                     <label for="productImage">Hình Ảnh</label>
-                    <input id="productImage" name="productImage" type="text" required>
+                    <input id="productImage" name="productImage" type="text">
                 </div>
                 <div class="form-group">
                     <label for="price">Giá</label>
-                    <input id="price" name="price" type="text" required>
+                    <input id="price" name="price" type="text">
                 </div>
                 <div class="form-group">
                     <label for="ingredients">Thành Phần</label>
-                    <input id="ingredients" name="ingredients" type="text" required>
+                    <input id="ingredients" name="ingredients" type="text">
                 </div>
                 <div class="form-group">
                     <label for="formulation">Cách Bào Chế</label>
-                    <input id="formulation" name="formulation" type="text" required>
+                    <input id="formulation" name="formulation" type="text">
                 </div>
                 <div class="form-group">
                     <label for="specification">Thông Số Kỹ Thuật</label>
-                    <input id="specification" name="specification" type="text" required>
+                    <input id="specification" name="specification" type="text">
                 </div>
                 <div class="form-group">
                     <label for="targetAudience">Đối Tượng Sử Dụng</label>
-                    <input id="targetAudience" name="targetAudience" type="text" required>
+                    <input id="targetAudience" name="targetAudience" type="text">
                 </div>
                 <div class="form-group">
                     <label for="prescriptionMedication">Thuốc Theo Đơn</label>
@@ -119,11 +136,11 @@
                 </div>
                 <div class="form-group">
                     <label for="shortDescription">Mô Tả Ngắn</label>
-                    <textarea id="shortDescription" name="shortDescription" required></textarea>
+                    <textarea id="shortDescription" name="shortDescription"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="registrationNumber">Số Đăng Ký</label>
-                    <input id="registrationNumber" name="registrationNumber" type="text" required>
+                    <input id="registrationNumber" name="registrationNumber" type="text" >
                 </div>
                 <div class="form-group">
                     <label for="category">Danh Mục</label>

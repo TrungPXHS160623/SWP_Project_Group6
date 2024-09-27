@@ -6,6 +6,7 @@
 package control;
 
 import dao.DAO;
+import entity.Category;
 import entity.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -35,7 +36,9 @@ public class ManagerProductControl extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         DAO dao = new DAO();
         List<Product> list = dao.getAllProduct();
+        List<Category> listC = dao.getAllCategory();
         
+        request.setAttribute("listC", listC);
         request.setAttribute("listP", list);
         request.getRequestDispatcher("ProductManagement.jsp").forward(request, response);
     } 

@@ -32,16 +32,16 @@ public class LoadData extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String productId = request.getParameter("pid");
+        //GetData
         DAO dao = new DAO();
-        Product p = dao.getProductWithProductId(productId);
-        List<Category> listCategory = dao.getAllCategory();
+        String productId = request.getParameter("pid"); //lấy id của thằng product muốn sửa
+        Product p = dao.getProductWithProductId(productId); // dùng id đó lấy toàn bộ thông tin của nó
+        List<Category> listCategory = dao.getAllCategory(); //lấy toàn bộ danh sách các category
         
-        
-        
-        request.setAttribute("ListCategory", listCategory);
-        request.setAttribute("load", p);
-        request.getRequestDispatcher("Update.jsp").forward(request, response);
+        //SendData
+        request.setAttribute("ListCategory", listCategory); // gửi data về danh sách category
+        request.setAttribute("load", p); //gửi data về sản phẩm mà mình muốn sửa
+        request.getRequestDispatcher("Update.jsp").forward(request, response); // Địa chỉ nhận data -> trang update.jsp
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

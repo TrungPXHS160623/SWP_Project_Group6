@@ -1,4 +1,7 @@
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -69,9 +72,9 @@
                 background-color: #218838;
             }
             .readonly-input {
-                background-color: #fff3cd; 
+                background-color: #fff3cd;
                 padding: 10px;
-                border: 1px solid #ffc107; 
+                border: 1px solid #ffc107;
                 border-radius: 5px;
                 color: #856404;
             }
@@ -79,7 +82,23 @@
         </style>
     </head>
     <body>
-
+        <%
+    List<String> updateErrors = (List<String>) session.getAttribute("updateErrors");
+    if (updateErrors != null && !updateErrors.isEmpty()) {
+        %>
+        <div class="alert alert-danger" style="padding: 15px; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 5px; margin-bottom: 20px;">
+            <h4 style="font-weight: bold; margin-bottom: 10px; color: #721c24;"><i class="fas fa-exclamation-circle"></i> Đã xảy ra lỗi:</h4>
+            <ul style="list-style-type: disc; padding-left: 20px;">
+                <c:forEach var="error" items="${updateErrors}">
+                    <li style="margin-bottom: 5px;">${error}</li>
+                    </c:forEach>
+            </ul>
+        </div>
+        <%
+                // Xóa thông báo lỗi sau khi hiển thị
+                session.removeAttribute("updateErrors");
+            }
+        %>
         <div class="container">
             <h1>Chỉnh Sửa Sản Phẩm</h1>
             <form action="update" method="post">
@@ -89,47 +108,47 @@
                 </div>
                 <div class="form-group">
                     <label for="productName">Tên Sản Phẩm</label>
-                    <input value="${load.productName}" id="productName" name="productName" type="text" required>
+                    <input value="${load.productName}" id="productName" name="productName" type="text">
                 </div>
                 <div class="form-group">
                     <label for="productImage">Hình Ảnh</label>
-                    <input value="${load.productImage}" id="productImage" name="productImage" type="text" required>
+                    <input value="${load.productImage}" id="productImage" name="productImage" type="text">
                 </div>
                 <div class="form-group">
                     <label for="price">Giá</label>
-                    <input value="${load.price}" id="price" name="price" type="text" required>
+                    <input value="${load.price}" id="price" name="price" type="text">
                 </div>
                 <div class="form-group">
                     <label for="ingredients">Thành Phần</label>
-                    <input value="${load.ingredients}" id="ingredients" name="ingredients" type="text" required>
+                    <input value="${load.ingredients}" id="ingredients" name="ingredients" type="text" >
                 </div>
                 <div class="form-group">
                     <label for="formulation">Cách Bào Chế</label>
-                    <input value="${load.formulation}" id="formulation" name="formulation" type="text" required>
+                    <input value="${load.formulation}" id="formulation" name="formulation" type="text" >
                 </div>
                 <div class="form-group">
                     <label for="specification">Thông Số Kỹ Thuật</label>
-                    <input value="${load.specification}" id="specification" name="specification" type="text" required>
+                    <input value="${load.specification}" id="specification" name="specification" type="text">
                 </div>
                 <div class="form-group">
                     <label for="targetAudience">Đối Tượng Sử Dụng</label>
-                    <input value="${load.targetAudience}" id="targetAudience" name="targetAudience" type="text" required>
+                    <input value="${load.targetAudience}" id="targetAudience" name="targetAudience" type="text">
                 </div>
 
                 <div class="form-group">
                     <label for="prescriptionMedication">Thuốc Theo Đơn</label>
                     <select id="prescriptionMedication" name="prescriptionMedication" required>
-                        <option value="1" <c:if test="${load.prescriptionMedication == true}">selected</c:if>>Có</option>
-                        <option value="0" <c:if test="${load.prescriptionMedication == false}">selected</c:if>>Không</option>
+                        <option value="1" <c:if test="${load.prescriptionMedication}">selected</c:if>>Có</option>
+                        <option value="0" <c:if test="${!load.prescriptionMedication}">selected</c:if>>Không</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="shortDescription">Mô Tả Ngắn</label>
-                        <textarea id="shortDescription" name="shortDescription" required>${load.shortDescription}</textarea>
+                        <textarea id="shortDescription" name="shortDescription">${load.shortDescription}</textarea>
                 </div>
                 <div class="form-group">
                     <label for="registrationNumber">Số Đăng Ký</label>
-                    <input value="${load.registrationNumber}" id="registrationNumber" name="registrationNumber" type="text" required>
+                    <input value="${load.registrationNumber}" id="registrationNumber" name="registrationNumber" type="text">
                 </div>
                 <div class="form-group">
                     <label for="category">Danh Mục</label>

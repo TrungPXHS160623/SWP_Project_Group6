@@ -13,6 +13,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.catalina.connector.Response;
 
@@ -65,43 +67,95 @@ public class AddProduct extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-    request.setCharacterEncoding("UTF-8");
-    
-    try {
-        // Lấy thông tin từ request
-        String ProductName = request.getParameter("productName");
-        int CategoryId = Integer.parseInt(request.getParameter("category")); // Chuyển đổi thành int
-        String ProductImage = request.getParameter("productImage");
-        String Ingredients = request.getParameter("ingredients");
-        String Formulation = request.getParameter("formulation");
-        String Specification = request.getParameter("specification");
-        String TargetAudience = request.getParameter("targetAudience");
-        boolean PrescriptionMedication = Boolean.parseBoolean(request.getParameter("prescriptionMedication")); // Chuyển đổi thành boolean
-        String ShortDescription = request.getParameter("shortDescription");
-        String RegistrationNumber = request.getParameter("registrationNumber");
-        float Price = Float.parseFloat(request.getParameter("price")); // Chuyển đổi thành float
-        
-        
-        DAO dao = new DAO();
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        List<String> errors = new ArrayList<>();
 
-        // Gọi hàm InsertProduct với đúng thứ tự các tham số
-        dao.InsertProduct(ProductName, CategoryId, ProductImage, Ingredients, Formulation, Specification, TargetAudience, PrescriptionMedication, ShortDescription, RegistrationNumber, Price);
-        
-        // Chuyển hướng đến trang quản lý
-        response.sendRedirect("manager");
-        
-        
-    } catch (NumberFormatException e) {
-        e.printStackTrace(); // Xử lý lỗi nếu không thể chuyển đổi số
-        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid input for CategoryId, Price or PrescriptionMedication.");
-    } catch (Exception e) {
-        e.printStackTrace(); // Xử lý lỗi khác
-        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing your request.");
+        try {
+            // Lấy thông tin từ request
+            String ProductName = request.getParameter("productName");
+            int CategoryId = Integer.parseInt(request.getParameter("category"));
+            String ProductImage = request.getParameter("productImage");
+            String Ingredients = request.getParameter("ingredients");
+            String Formulation = request.getParameter("formulation");
+            String Specification = request.getParameter("specification");
+            String TargetAudience = request.getParameter("targetAudience");
+            boolean PrescriptionMedication = Boolean.parseBoolean(request.getParameter("prescriptionMedication"));
+            String ShortDescription = request.getParameter("shortDescription");
+            String RegistrationNumber = request.getParameter("registrationNumber");
+            float Price = Float.parseFloat(request.getParameter("price"));
+
+            // Validate dữ liệu
+            if (ProductName == null || ProductName.isEmpty() || ProductName.length() > 100) {
+                errors.add("Tên sản phẩm không được để trống và phải dưới 100 ký tự.");
+            }
+
+            if (CategoryId <= 0) {
+                errors.add("Danh mục không hợp lệ.");
+            }
+
+            if (ProductImage == null || ProductImage.isEmpty() || !ProductImage.startsWith("http://") && !ProductImage.startsWith("https://")) {
+                errors.add("Hình ảnh không được để trống và phải có định dạng URL hợp lệ.");
+            }
+
+            if (Ingredients == null || Ingredients.isEmpty()) {
+                errors.add("Thành phần không được để trống.");
+            }
+
+            if (Formulation == null || Formulation.isEmpty()) {
+                errors.add("Cách bào chế không được để trống.");
+            }
+
+            if (Specification == null || Specification.isEmpty()) {
+                errors.add("Thông số kỹ thuật không được để trống.");
+            }
+
+            if (TargetAudience == null || TargetAudience.isEmpty()) {
+                errors.add("Đối tượng sử dụng không được để trống.");
+            }
+
+            if (ShortDescription == null || ShortDescription.isEmpty() || ShortDescription.length() > 250) {
+                errors.add("Mô tả ngắn không được để trống và phải dưới 250 ký tự.");
+            }
+
+            if (RegistrationNumber == null || RegistrationNumber.isEmpty()) {
+                errors.add("Số đăng ký không được để trống.");
+            }
+
+            try {
+                if (Price <= 0) {
+                    errors.add("Giá phải lớn hơn 0.");
+                }
+            } catch (NumberFormatException e) {
+                errors.add("Giá không hợp lệ.");
+            }
+
+            // Nếu có lỗi, lưu lỗi vào session và chuyển hướng lại trang AddProduct.jsp
+            if (!errors.isEmpty()) {
+                HttpSession session = request.getSession();
+                session.setAttribute("addErrors", errors);
+                request.setAttribute("ListCategory", new DAO().getAllCategory());
+                request.getRequestDispatcher("AddProduct.jsp").forward(request, response);
+                return; // Dừng thực thi thêm
+            }
+
+            // Gọi hàm InsertProduct
+            DAO dao = new DAO();
+            dao.InsertProduct(ProductName, CategoryId, ProductImage, Ingredients, Formulation, Specification, TargetAudience, PrescriptionMedication, ShortDescription, RegistrationNumber, Price);
+
+            // Lưu thông báo thành công vào session
+            HttpSession session = request.getSession();
+            session.setAttribute("addMessage", "Thêm sản phẩm thành công!");
+            response.sendRedirect("manager");
+
+        } catch (Exception e) {
+            // Lưu thông báo thất bại vào session
+            HttpSession session = request.getSession();
+            session.setAttribute("addErrorMessage", "Thêm sản phẩm thất bại: " + e.getMessage());
+            response.sendRedirect("AddProduct.jsp");
+        }
     }
-}
-
 
     /**
      * Returns a short description of the servlet.
@@ -112,6 +166,5 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    
 
 }
