@@ -85,7 +85,7 @@ public class AddProduct extends HttpServlet {
             String ShortDescription = request.getParameter("shortDescription");
             String RegistrationNumber = request.getParameter("registrationNumber");
             float Price = Float.parseFloat(request.getParameter("price"));
-
+            boolean isActive = Boolean.parseBoolean(request.getParameter("isActive"));
             // Validate dữ liệu
             if (ProductName == null || ProductName.isEmpty() || ProductName.length() > 100) {
                 errors.add("Tên sản phẩm không được để trống và phải dưới 100 ký tự.");
