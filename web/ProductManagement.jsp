@@ -11,6 +11,9 @@
 
         <style>
             body {
+
+
+
                 font-family: 'Roboto', sans-serif;
                 background: linear-gradient(to right, #00c6ff, #0072ff);
                 color: #fff;
@@ -19,6 +22,8 @@
             }
 
             .container {
+
+
                 background-color: rgba(255, 255, 255, 0.95);
                 padding: 20px;
                 border-radius: 15px;
@@ -26,9 +31,18 @@
             }
 
             h1 {
-                color: #0c64dc;
+                color: #FF5733; /* Màu đỏ cam nổi bật */
                 margin-bottom: 20px;
                 text-align: center;
+                font-family: 'Arial Black', sans-serif; /* Kiểu chữ đậm và nổi bật */
+            }
+
+            h2 {
+                color: #28A745; /* Màu xanh lá cây tươi sáng */
+                margin-bottom: 20px;
+                text-align: center;
+                font-family: 'Georgia', serif; /* Kiểu chữ serif thanh lịch */
+                font-weight: bold; /* Chữ đậm hơn */
             }
 
             table {
@@ -54,7 +68,7 @@
             }
 
             .important-info {
-                color: #d9534f;
+                color: #5a5a5a;
                 font-weight: bold;
             }
 
@@ -63,6 +77,7 @@
                 justify-content: center; /* Căn giữa nút */
                 align-items: center;
                 height: 100%;
+                
             }
 
             .button {
@@ -100,19 +115,19 @@
             }
 
             .button.edit {
-                background-color: #ffc107;
+                background-color: #ffc107; /* Màu vàng cho nút Sửa */
             }
 
             .button.edit:hover {
-                background-color: #e0a800;
+                background-color: #e0a800; /* Màu vàng đậm khi hover */
             }
 
-            .button.delete {
-                background-color: #dc3545;
+            .button.deactivate {
+                background-color: #dc3545; /* Màu đỏ cho nút Vô hiệu hóa */
             }
 
-            .button.delete:hover {
-                background-color: #c82333;
+            .button.deactivate:hover {
+                background-color: #c82333; /* Màu đỏ đậm khi hover */
             }
 
             img.product-image {
@@ -133,6 +148,7 @@
             .btn-back-home:hover {
                 background-color: #f39c12;
             }
+
         </style>
     </head>
     <body>
@@ -154,7 +170,7 @@
             // Tự động ẩn thông báo sau 5 giây
             setTimeout(function () {
                 document.getElementById('updateAlert').style.display = 'none';
-            }, 5000); // Thời gian 5000ms = 5 giây
+            }, 4000); // Thời gian 5000ms = 5 giây
         </script>
         <% 
                 session.removeAttribute("updateMessage"); // Xóa thông báo sau khi hiển thị
@@ -184,22 +200,118 @@
             // Tự động ẩn thông báo sau 5 giây
             setTimeout(function () {
                 document.getElementById('addAlert').style.display = 'none';
-            }, 5000);
+            }, 4000);
         </script>
         <%
                 session.removeAttribute("addMessage"); // Xóa thông báo sau khi hiển thị
             }
         %>
 
+        <%
+     String deactiveMessage = (String) session.getAttribute("deactiveMessage");
+     if (deactiveMessage != null) {
+        %>
+        <div id="deactiveAlert" class="alert alert-success" style="display: flex; align-items: center; background-color: #d4edda; border-color: #c3e6cb; color: #155724; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+            <i class="fas fa-check-circle" style="font-size: 24px; margin-right: 10px;"></i>
+            <div>
+                <strong>Thông Báo:</strong> <%= deactiveMessage %>
+            </div>
+            <button type="button" onclick="this.parentElement.style.display = 'none';" style="background: transparent; border: none; color: #155724; cursor: pointer; margin-left: auto;">
+                <i class="fas fa-times-circle" style="font-size: 24px;"></i>
+            </button>
+        </div>
+        <script>
+            // Tự động ẩn thông báo sau 5 giây
+            setTimeout(function () {
+                document.getElementById('deactiveAlert').style.display = 'none';
+            }, 4000);
+        </script>
+        <%
+                session.removeAttribute("deactiveMessage"); // Đảm bảo xóa thông báo đúng tên
+            }
+        %>
+
+        <% 
+    String reactivateMessage = (String) session.getAttribute("reactivateMessage");
+    if (reactivateMessage != null) {
+        %>
+        <div id="reactivateAlert" class="alert alert-success" style="display: flex; align-items: center; background-color: #d4edda; border-color: #c3e6cb; color: #155724; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+            <i class="fas fa-check-circle" style="font-size: 24px; margin-right: 10px;"></i>
+            <div>
+                <strong>Thông Báo:</strong> <%= reactivateMessage %>
+            </div>
+            <button type="button" onclick="this.parentElement.style.display = 'none';" style="background: transparent; border: none; color: #155724; cursor: pointer; margin-left: auto;">
+                <i class="fas fa-times-circle" style="font-size: 24px;"></i>
+            </button>
+        </div>
+        <script>
+            setTimeout(function () {
+                document.getElementById('reactivateAlert').style.display = 'none';
+            }, 4000);
+        </script>
+        <% 
+                session.removeAttribute("reactivateMessage"); // Xóa thông báo sau khi hiển thị
+            }
+        %>
+
+
+        <% 
+    String searchErrorMessage = (String) session.getAttribute("searchErrorMessage");
+    if (searchErrorMessage != null) { 
+        %>
+        <div id="searchErrorAlert" class="alert alert-danger" style="display: flex; align-items: center; background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+            <i class="fas fa-exclamation-circle" style="font-size: 24px; margin-right: 10px;"></i>
+            <div>
+                <strong>Thông Báo:</strong> <%= searchErrorMessage %>
+            </div>
+            <button type="button" onclick="this.parentElement.style.display = 'none';" style="background: transparent; border: none; color: #721c24; cursor: pointer; margin-left: auto;">
+                <i class="fas fa-times-circle" style="font-size: 24px;"></i>
+            </button>
+        </div>
+        <script>
+            setTimeout(function () {
+                document.getElementById('searchErrorAlert').style.display = 'none';
+            }, 4000);
+        </script>
+        <% 
+                session.removeAttribute("searchErrorMessage"); // Xóa thông báo sau khi hiển thị
+            } 
+        %>
+
+
+    
+
+
         <div class="container">
-            <h1>Quản Lý Sản Phẩm</h1>
+            <a href="manager" style="text-decoration: none;">
+                <h1>Quản Lý Sản Phẩm</h1>
+            </a>
+            <h2>(Đang hoạt động)</h2>
             <div class="back-home">
                 <button class="btn-back-home" onclick="window.location.href = 'home'">
                     Trở Về Trang Chủ
                 </button>
             </div>
             <div class="add-product">
+                <!-- Phần tìm kiếm -->
+                <div class="search-container" style="margin-bottom: 10px; margin-top: 20px">
+                    <form action="search2" method="post" class="form-inline">
+                        <div class="input-group" style="display: flex; align-items: center; width: 100%;">
+                            <input value="${ValueOfSearch}" name="txt" type="text" class="form-control" 
+                                   aria-label="Small" aria-describedby="inputGroup-sizing-sm" 
+                                   placeholder="Tìm kiếm thuốc..." 
+                                   style="height: 50px; font-size: 18px; flex: 1; max-width: 400px; margin-right: 5px;"> 
+                            <button type="submit" class="btn btn-secondary btn-number" style="height: 50px; font-size: 18px;">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+
+                <a href="managerdeactiveproduct"  style="margin-left: 10px;">Xem Sản Phẩm Đang Bị Vô Hiệu Hóa</a>
                 <a href="add">Thêm Sản Phẩm</a>
+
             </div>
             <table>
                 <thead>
@@ -216,7 +328,7 @@
                         <th>Mô Tả Ngắn</th>
                         <th>Số Đăng Ký</th>
                         <th>Giá</th>
-                        <th style="width: 80px;">Hành Động</th> 
+                        <th>Hành Động</th> 
                     </tr>
                 </thead>
                 <tbody>
@@ -251,8 +363,14 @@
                             <td class="important-info">${o.registrationNumber}</td>
                             <td class="important-info">${o.price}</td>
                             <td class="button-group">
-                                <a href="load?pid=${o.productID}" class="button edit">Sửa</a>
-                                <a href="delete?pid=${o.productID}" class="button delete" onclick="return confirmDelete();">Xóa</a> 
+                                <form action="load" method="get" style="display:inline;">
+                                    <input type="hidden" name="pid" value="${o.productID}">
+                                    <button type="submit" class="button edit">Sửa</button>
+                                </form>
+                                <form action="deactive" method="post" style="display:inline;">
+                                    <input type="hidden" name="pid2" value="${o.productID}">
+                                    <button type="submit" class="button deactivate">Vô hiệu hóa</button>
+                                </form>
                             </td>
                         </tr>  
                     </c:forEach>

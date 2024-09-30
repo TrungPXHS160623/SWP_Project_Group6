@@ -7,7 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div class="col-sm-3">
                     <div class="card bg-light mb-3">
-                        <div class="card-header text-white text-uppercase"><i class="fa fa-list"></i> Danh mục sản phẩm</div>
+                        <div class="card-header text-white text-uppercase"><i class="fa fa-list"></i>Vitamin & Khoáng chất</div>
                         <ul class="list-group category_block">
                             <c:forEach items="${ListCategory}" var="o">
                                 <li class="list-group-item text-white">

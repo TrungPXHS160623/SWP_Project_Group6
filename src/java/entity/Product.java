@@ -21,11 +21,12 @@ public class Product {
     private String ShortDescription;
     private String RegistrationNumber;
     private float Price;
+    private Boolean isActive;
     
     public Product() {
     }
 
-    public Product(int ProductID, String ProductName, int CategoryId, String ProductImage, String Ingredients, String Formulation, String Specification, String TargetAudience, boolean PrescriptionMedication, String ShortDescription, String RegistrationNumber, float Price) {
+    public Product(int ProductID, String ProductName, int CategoryId, String ProductImage, String Ingredients, String Formulation, String Specification, String TargetAudience, boolean PrescriptionMedication, String ShortDescription, String RegistrationNumber, float Price, Boolean isActive) {
         this.ProductID = ProductID;
         this.ProductName = ProductName;
         this.CategoryId = CategoryId;
@@ -38,6 +39,7 @@ public class Product {
         this.ShortDescription = ShortDescription;
         this.RegistrationNumber = RegistrationNumber;
         this.Price = Price;
+        this.isActive = isActive;
     }
 
     public int getProductID() {
@@ -88,59 +90,82 @@ public class Product {
         return Price;
     }
 
-    public void setProductID(int ProductID) {
-        this.ProductID = ProductID;
+    public Boolean getIsActive() {
+        return isActive;
     }
 
-    public void setProductName(String ProductName) {
-        this.ProductName = ProductName;
+     // Setters
+    public void setProductID(int productID) {
+        this.ProductID = productID;
     }
 
-    public void setCategoryId(int CategoryId) {
-        this.CategoryId = CategoryId;
+    public void setProductName(String productName) {
+        this.ProductName = productName;
     }
 
-    public void setProductImage(String ProductImage) {
-        this.ProductImage = ProductImage;
+    public void setCategoryId(int categoryId) {
+        this.CategoryId = categoryId;
     }
 
-    public void setIngredients(String Ingredients) {
-        this.Ingredients = Ingredients;
+    public void setProductImage(String productImage) {
+        this.ProductImage = productImage;
     }
 
-    public void setFormulation(String Formulation) {
-        this.Formulation = Formulation;
+    public void setIngredients(String ingredients) {
+        this.Ingredients = ingredients;
     }
 
-    public void setSpecification(String Specification) {
-        this.Specification = Specification;
+    public void setFormulation(String formulation) {
+        this.Formulation = formulation;
     }
 
-    public void setTargetAudience(String TargetAudience) {
-        this.TargetAudience = TargetAudience;
+    public void setSpecification(String specification) {
+        this.Specification = specification;
     }
 
-    public void setPrescriptionMedication(boolean PrescriptionMedication) {
-        this.PrescriptionMedication = PrescriptionMedication;
+    public void setTargetAudience(String targetAudience) {
+        this.TargetAudience = targetAudience;
     }
 
-    public void setShortDescription(String ShortDescription) {
-        this.ShortDescription = ShortDescription;
+    public void setPrescriptionMedication(boolean prescriptionMedication) {
+        this.PrescriptionMedication = prescriptionMedication;
     }
 
-    public void setRegistrationNumber(String RegistrationNumber) {
-        this.RegistrationNumber = RegistrationNumber;
+    public void setShortDescription(String shortDescription) {
+        this.ShortDescription = shortDescription;
     }
 
-    public void setPrice(float Price) {
-        this.Price = Price;
+    public void setRegistrationNumber(String registrationNumber) {
+        this.RegistrationNumber = registrationNumber;
     }
 
+    public void setPrice(float price) {
+        this.Price = price;
+    }
+
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    // toString method
     @Override
     public String toString() {
-        return "Product{" + "ProductID=" + ProductID + ", ProductName=" + ProductName + ", CategoryId=" + CategoryId + ", ProductImage=" + ProductImage + ", Ingredients=" + Ingredients + ", Formulation=" + Formulation + ", Specification=" + Specification + ", TargetAudience=" + TargetAudience + ", PrescriptionMedication=" + PrescriptionMedication + ", ShortDescription=" + ShortDescription + ", RegistrationNumber=" + RegistrationNumber + ", Price=" + Price + '}';
+        return "Product{" +
+                "ProductID=" + ProductID +
+                ", ProductName='" + ProductName + '\'' +
+                ", CategoryId=" + CategoryId +
+                ", ProductImage='" + ProductImage + '\'' +
+                ", Ingredients='" + Ingredients + '\'' +
+                ", Formulation='" + Formulation + '\'' +
+                ", Specification='" + Specification + '\'' +
+                ", TargetAudience='" + TargetAudience + '\'' +
+                ", PrescriptionMedication=" + PrescriptionMedication +
+                ", ShortDescription='" + ShortDescription + '\'' +
+                ", RegistrationNumber='" + RegistrationNumber + '\'' +
+                ", Price=" + Price +
+                ", isActive=" + isActive +
+                '}';
     }
-
     
             
 }

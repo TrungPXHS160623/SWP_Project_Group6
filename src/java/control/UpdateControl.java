@@ -52,6 +52,7 @@ public class UpdateControl extends HttpServlet {
             String ShortDescription = request.getParameter("shortDescription");
             String RegistrationNumber = request.getParameter("registrationNumber");
             float Price = Float.parseFloat(request.getParameter("price")); // Chuyển đổi thành float
+            boolean isActive = Boolean.parseBoolean(request.getParameter("isActive"));
 
             // Validate dữ liệu
             if (ProductName == null || ProductName.isEmpty()) {
@@ -103,7 +104,7 @@ public class UpdateControl extends HttpServlet {
             if (!errors.isEmpty()) {
                 HttpSession session = request.getSession();
                 session.setAttribute("updateErrors", errors);
-                request.setAttribute("load", new Product(ProductID, ProductName, CategoryId, ProductImage, Ingredients, Formulation, Specification, TargetAudience, PrescriptionMedication, ShortDescription, RegistrationNumber, Price));
+                request.setAttribute("load", new Product(ProductID, ProductName, CategoryId, ProductImage, Ingredients, Formulation, Specification, TargetAudience, PrescriptionMedication, ShortDescription, RegistrationNumber, Price,isActive));
                 // Lấy danh sách danh mục để hiển thị lại
                 DAO dao = new DAO();
                 List<Category> listCategory = dao.getAllCategory();
@@ -114,8 +115,8 @@ public class UpdateControl extends HttpServlet {
             }
             //thực hiện thay đổi
             DAO dao = new DAO();
+            //dao.UpdateProduct(ProductName, CategoryId, ProductImage, Ingredients, Formulation, Specification, TargetAudience, PrescriptionMedication, ShortDescription, RegistrationNumber, Price, ProductID, isActive);
             dao.UpdateProduct(ProductName, CategoryId, ProductImage, Ingredients, Formulation, Specification, TargetAudience, PrescriptionMedication, ShortDescription, RegistrationNumber, Price, ProductID);
-
             //gửi thông báo thành công về trang managerProductManager nếu thành công
             HttpSession session = request.getSession();
             session.setAttribute("updateMessage", "Cập nhật sản phẩm ID " + ProductID + " thành công!");
