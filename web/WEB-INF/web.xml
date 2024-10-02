@@ -71,4 +71,30 @@
         <servlet-name>LoadData</servlet-name>
         <url-pattern>/load</url-pattern>
     </servlet-mapping>
+    <!-- Thêm cấu hình cho Login/Logout và Register servlet -->
+    <servlet>
+        <servlet-name>LoginController</servlet-name>
+        <servlet-class>controller.LoginController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LogoutController</servlet-name>
+        <servlet-class>controller.LogoutController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RegisterController</servlet-name>
+        <servlet-class>controller.RegisterController</servlet-class>
+    </servlet>
+    <!-- Thêm servlet mapping cho Login/Logout và Register -->
+    <servlet-mapping>
+        <servlet-name>LoginController</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogoutController</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RegisterController</servlet-name>
+        <url-pattern>/register</url-pattern>
+    </servlet-mapping>
 </web-app>
