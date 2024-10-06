@@ -74,15 +74,15 @@
     <!-- Thêm cấu hình cho Login/Logout và Register servlet -->
     <servlet>
         <servlet-name>LoginController</servlet-name>
-        <servlet-class>controller.LoginController</servlet-class>
+        <servlet-class>control.LoginController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LogoutController</servlet-name>
-        <servlet-class>controller.LogoutController</servlet-class>
+        <servlet-class>control.LogoutController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>RegisterController</servlet-name>
-        <servlet-class>controller.RegisterController</servlet-class>
+        <servlet-class>control.RegisterController</servlet-class>
     </servlet>
     <!-- Thêm servlet mapping cho Login/Logout và Register -->
     <servlet-mapping>
