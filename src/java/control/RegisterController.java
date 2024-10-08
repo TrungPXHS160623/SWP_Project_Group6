@@ -68,16 +68,16 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String firstName = request.getParameter("firstName");
-        String lastName = request.getParameter("lastName");
-        String username = request.getParameter("username");
-        String dob = request.getParameter("dob");
-        int gender = Integer.parseInt(request.getParameter("gender"));
-        String phone = request.getParameter("phone");
+//        String firstName = request.getParameter("firstName");
+//        String lastName = request.getParameter("lastName");
+//        String username = request.getParameter("username");
+//        String dob = request.getParameter("dob");
+//        int gender = Integer.parseInt(request.getParameter("gender"));
+//        String phone = request.getParameter("phone");
         String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        String re_password = request.getParameter("re_password");
-        Customer customer = new Customer(0, firstName, lastName, username, dob, gender, phone, email, password);
+//        String password = request.getParameter("password");
+//        String re_password = request.getParameter("re_password");
+        Customer customer = new Customer(0, email);
 
         PrintWriter out = response.getWriter();
 
@@ -88,20 +88,20 @@ public class RegisterController extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        if (dao.checkUsernameExist(username)) {
-            request.setAttribute("error", "This username is exist");
-            request.getRequestDispatcher("Register.jsp").forward(request, response);
-        } else if (dao.checkEmailExist(email)) {
-            request.setAttribute("error", "This email is already registered");
-            request.getRequestDispatcher("Register.jsp").forward(request, response);
-        } else if (!password.equals(re_password)) {
-            request.setAttribute("error", "Password not equal Repeat Password");
-            request.getRequestDispatcher("Register.jsp").forward(request, response);
-        } else if (!dao.isValidDob(dob)) {
-            request.setAttribute("error", "You must be 16 years old or more");
-            request.getRequestDispatcher("Register.jsp").forward(request, response);
-        } else if (!email.endsWith("@gmail.com")) {
+        //        if (dao.checkUsernameExist(username)) {
+        //            request.setAttribute("error", "This username is exist");
+        //            request.getRequestDispatcher("Register.jsp").forward(request, response);
+        //        } else if (dao.checkEmailExist(email)) {
+        //            request.setAttribute("error", "This email is already registered");
+        //            request.getRequestDispatcher("Register.jsp").forward(request, response);
+        //        } else if (!password.equals(re_password)) {
+        //            request.setAttribute("error", "Password not equal Repeat Password");
+        //            request.getRequestDispatcher("Register.jsp").forward(request, response);
+        //        } else if (!dao.isValidDob(dob)) {
+        //            request.setAttribute("error", "You must be 16 years old or more");
+        //            request.getRequestDispatcher("Register.jsp").forward(request, response);
+        //        } 
+        if (!email.endsWith("@gmail.com")) {
             request.setAttribute("error", "Email must be a gmail.com account");
             request.getRequestDispatcher("Register.jsp").forward(request, response);
         } else {

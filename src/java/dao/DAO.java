@@ -344,7 +344,7 @@ public class DAO {
 
     public List<Customer> getCustomers() throws Exception {
         List<Customer> list = new ArrayList<>();
-        String sql = "select * from [Customers]";
+        String sql = "select * from [Customers] where isActive = 1";
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(sql);
