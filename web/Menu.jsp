@@ -50,7 +50,7 @@
 
             <c:if test="${sessionScope.customer == null}">
                 <form class="form-inline my-2 my-lg-0">
-                    <a href="Login.jsp" class="btn btn-outline-success my-2 my-sm-0 btn-nav">Đăng nhập</a>
+                    <a href="rolesLogin.jsp" class="btn btn-outline-success my-2 my-sm-0 btn-nav">Đăng nhập</a>
                     <a href="Register.jsp" class="btn btn-outline-success my-2 my-sm-0 btn-nav">Đăng ký</a>
                 </form>
             </c:if>

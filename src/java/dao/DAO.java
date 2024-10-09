@@ -5,9 +5,11 @@
 package dao;
 
 import context.DBContext;
+import entity.Admin;
 import entity.Category;
 import entity.Product;
 import entity.Customer;
+import entity.Doctor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -473,5 +475,17 @@ public class DAO {
         long yearsBetween = ChronoUnit.YEARS.between(birthDate, currentDate);
 
         return yearsBetween >= 13 && yearsBetween < 100;  // Người dùng phải ít nhất 16 tuổi
+    }
+
+    public void updateProfile(String firstName, String lastName, String username, String dob, int gender, String phone, String email) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public Doctor checkDoctorLogin(String username, String password) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public Admin checkAdminLogin(String username, String password) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

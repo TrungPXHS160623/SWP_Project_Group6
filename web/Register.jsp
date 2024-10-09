@@ -173,7 +173,7 @@
                 <h6 style="padding: 5px 0; color: #F44336">${error}</h6>
                 <input type="submit" value="Đăng Ký">
             </form>
-            <a href="Login.jsp">Đã có tài khoản? Đăng nhập</a>
+            <a href="rolesLogin.jsp">Đã có tài khoản? Đăng nhập</a>
         </div>
 
     </body>

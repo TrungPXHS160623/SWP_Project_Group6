@@ -4,13 +4,16 @@
  */
 package control;
 
+import dao.DAO;
+import entity.Customer;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -31,18 +34,21 @@ public class ProfileCustomerControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ProfileCustomerControl</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ProfileCustomerControl at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+        String username = request.getParameter("username");
+        String dob = request.getParameter("dob");
+        int gender = Integer.parseInt(request.getParameter("gender"));
+        String phone = request.getParameter("phone");
+        String email = request.getParameter("email");
+        
+        DAO dao = new DAO();
+        HttpSession session = request.getSession();
+        dao.updateProfile(firstName, lastName, username, dob, gender, phone, email);
+        Customer c = new Customer(0, firstName, lastName, username, dob, gender, phone, email, phone, LocalDateTime.MAX, LocalDateTime.MAX, gender);
+        
+        session.setAttribute("customer", c);
+        response.sendRedirect("home");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
