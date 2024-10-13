@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package control;
 
 import dao.DAO;
@@ -11,42 +10,45 @@ import entity.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 /**
  *
  * @author Acer
  */
+@WebServlet(name = "ManagerDeactiveProductControl", urlPatterns = {"/managerdeactiveproduct"})
+public class ManagerDeactiveProductControl extends HttpServlet {
 
-public class LoadData extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        //GetData
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
         DAO dao = new DAO();
-        String productId = request.getParameter("pid"); //lấy id của thằng product muốn sửa
-        Product p = dao.getProductWithProductId(productId); // dùng id đó lấy toàn bộ thông tin của nó
-        List<Category> listCategory = dao.getAllCategory(); //lấy toàn bộ danh sách các category
-        
-        //SendData
-        request.setAttribute("ListCategory", listCategory); // gửi data về danh sách category
-        request.setAttribute("load", p); //gửi data về sản phẩm mà mình muốn sửa
-        request.getRequestDispatcher("Update.jsp").forward(request, response); // Địa chỉ nhận data -> trang update.jsp
-    } 
+        List<Product> list = dao.getAllDeactiveProduct();
+        List<Category> listC = dao.getAllCategory();
+
+        request.setAttribute("listC", listC);
+        request.setAttribute("listP", list);
+        request.getRequestDispatcher("DeactiveProductPage.jsp").forward(request, response);
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -54,12 +56,13 @@ public class LoadData extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
-    } 
+    }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -67,12 +70,18 @@ public class LoadData extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        processRequest(request, response);
+            throws ServletException, IOException {
+        String productId = request.getParameter("pid3");
+        DAO dao = new DAO();
+        dao.activateProduct(productId);
+        HttpSession session = request.getSession();
+        session.setAttribute("reactivateMessage", "Bạn vừa tái kích hoạt sản phẩm ID " + productId + " thành công!");
+        response.sendRedirect("manager");
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override

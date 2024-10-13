@@ -6,22 +6,19 @@
 package control;
 
 import dao.DAO;
-import entity.Category;
-import entity.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
  * @author Acer
  */
-
-public class LoadData extends HttpServlet {
+public class DeactiveProduct extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -32,16 +29,19 @@ public class LoadData extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        //GetData
-        DAO dao = new DAO();
-        String productId = request.getParameter("pid"); //lấy id của thằng product muốn sửa
-        Product p = dao.getProductWithProductId(productId); // dùng id đó lấy toàn bộ thông tin của nó
-        List<Category> listCategory = dao.getAllCategory(); //lấy toàn bộ danh sách các category
-        
-        //SendData
-        request.setAttribute("ListCategory", listCategory); // gửi data về danh sách category
-        request.setAttribute("load", p); //gửi data về sản phẩm mà mình muốn sửa
-        request.getRequestDispatcher("Update.jsp").forward(request, response); // Địa chỉ nhận data -> trang update.jsp
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet DeactiveProduct</title>");  
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet DeactiveProduct at " + request.getContextPath () + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -67,8 +67,14 @@ public class LoadData extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        processRequest(request, response);
+    throws ServletException, IOException {   
+        
+        String productId = request.getParameter("pid2");
+        DAO dao = new DAO();
+        dao.deactivateProduct(productId);
+        HttpSession session = request.getSession();
+        session.setAttribute("deactiveMessage", "Bạn vừa vô hiệu hoá sản phẩm ID " + productId + " thành công!");
+        response.sendRedirect("manager");
     }
 
     /** 
