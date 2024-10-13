@@ -103,7 +103,7 @@
     
     <img src="https://vectorseek.com/wp-content/uploads/2023/10/FPT-Retail-Nha-thuoc-Long-Chau-Logo-Vector.svg-.png" alt="Nhà Thuốc Long Châu Logo">
     <h1>Đăng Nhập</h1>
-    <form action="LoginServlet" method="post">
+    <form action="login" method="post">
         <div class="input-group">
             <i class="fas fa-user"></i>
             <input type="text" name="username" placeholder="Tên đăng nhập" required>
