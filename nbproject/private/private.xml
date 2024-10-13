@@ -3,10 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
             <file>file:/D:/SWP_Project_Group6/src/java/control/ProfileCustomerControl.java</file>
             <file>file:/D:/SWP_Project_Group6/src/java/dao/DAO.java</file>
-=======
             <file>file:/C:/Users/Acer/Documents/NetBeansProjects/MyProject/src/java/control/CategoryControl.java</file>
             <file>file:/C:/Users/Acer/Documents/NetBeansProjects/MyProject/src/java/control/DeactiveProduct.java</file>
             <file>file:/C:/Users/Acer/Documents/NetBeansProjects/MyProject/web/AddProduct.jsp</file>
@@ -31,7 +29,6 @@
             <file>file:/C:/Users/Acer/Documents/NetBeansProjects/MyProject/src/java/dao/DAO.java</file>
             <file>file:/C:/Users/Acer/Documents/NetBeansProjects/MyProject/src/java/control/AddProduct.java</file>
             <file>file:/C:/Users/Acer/Documents/NetBeansProjects/MyProject/src/java/control/DeleteProduct.java</file>
->>>>>>> 99bb497e2fbe8a81227ef429820f17a75889d3f1
         </group>
     </open-files>
 </project-private>
