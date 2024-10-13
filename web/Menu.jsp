@@ -58,7 +58,7 @@
             <c:if test="${sessionScope.customer != null}">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <span class="navbar-text">Hello, ${sessionScope.customer.username}</span>
+                        <a class="nav-link" href="profilecustomer.jsp">${sessionScope.customer.username}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="logout">Logout</a>

@@ -84,6 +84,10 @@
         <servlet-name>RegisterController</servlet-name>
         <servlet-class>control.RegisterController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProfileCustomerControl</servlet-name>
+        <servlet-class>control.ProfileCustomerControl</servlet-class>
+    </servlet>
     <!-- Thêm servlet mapping cho Login/Logout và Register -->
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
@@ -96,5 +100,9 @@
     <servlet-mapping>
         <servlet-name>RegisterController</servlet-name>
         <url-pattern>/register</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProfileCustomerControl</servlet-name>
+        <url-pattern>/profile-customer</url-pattern>
     </servlet-mapping>
 </web-app>

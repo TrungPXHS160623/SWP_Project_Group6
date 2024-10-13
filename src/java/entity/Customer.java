@@ -13,8 +13,7 @@ import java.time.LocalDateTime;
 
 public class Customer {
     private int customerId;
-    private String firstName;
-    private String lastName;
+    private String fullName;
     private String username;
     private String dob;
     private int gender;
@@ -28,15 +27,14 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(int customerId, String email) {
-        this.customerId = customerId;
-        this.email = email;
-    }
+//    public Customer(int customerId, String email) {
+//        this.customerId = customerId;
+//        this.email = email;
+//    }
 
-    public Customer(int customerId, String firstName, String lastName, String username, String dob, int gender, String phone, String email, String password) {
+    public Customer(int customerId, String fullName, String username, String dob, int gender, String phone, String email, String password) {
         this.customerId = customerId;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.fullName = fullName;
         this.username = username;
         this.dob = dob;
         this.gender = gender;
@@ -45,10 +43,9 @@ public class Customer {
         this.password = password;
     }
 
-    public Customer(int customerId, String firstName, String lastName, String username, String dob, int gender, String phone, String email, String password, LocalDateTime createdAt, LocalDateTime updatedAt, int isActive) {
+    public Customer(int customerId, String fullName, String username, String dob, int gender, String phone, String email, String password, LocalDateTime createdAt, LocalDateTime updatedAt, int isActive) {
         this.customerId = customerId;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.fullName = fullName;
         this.username = username;
         this.dob = dob;
         this.gender = gender;
@@ -68,20 +65,12 @@ public class Customer {
         this.customerId = customerId;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getUsername() {
@@ -91,7 +80,7 @@ public class Customer {
     public void setUsername(String username) {
         this.username = username;
     }
-    
+
     public String getDob() {
         return dob;
     }

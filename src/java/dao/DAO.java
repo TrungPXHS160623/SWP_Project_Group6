@@ -317,14 +317,13 @@ public class DAO {
                         rs.getString(2),
                         rs.getString(3),
                         rs.getString(4),
-                        rs.getString(5),
-                        rs.getInt(6),
+                        rs.getInt(5),
+                        rs.getString(6),
                         rs.getString(7),
                         rs.getString(8),
-                        rs.getString(9),
+                        rs.getTimestamp(9).toLocalDateTime(),
                         rs.getTimestamp(10).toLocalDateTime(),
-                        rs.getTimestamp(11).toLocalDateTime(),
-                        rs.getInt(12)
+                        rs.getInt(11)
                 );
             }
         } catch (Exception e) {
@@ -357,14 +356,13 @@ public class DAO {
                         rs.getString(2),
                         rs.getString(3),
                         rs.getString(4),
-                        rs.getString(5),
-                        rs.getInt(6),
+                        rs.getInt(5),
+                        rs.getString(6),
                         rs.getString(7),
                         rs.getString(8),
-                        rs.getString(9),
+                        rs.getTimestamp(9).toLocalDateTime(),
                         rs.getTimestamp(10).toLocalDateTime(),
-                        rs.getTimestamp(11).toLocalDateTime(),
-                        rs.getInt(12)
+                        rs.getInt(11)
                 );
                 list.add(customer);
             }
@@ -413,8 +411,7 @@ public class DAO {
         }
 
         String query = "INSERT INTO [dbo].[Customers]\n"
-                + "           ([FirstName]\n"
-                + "           ,[LastName]\n"
+                + "           ([FullName]\n"
                 + "           ,[Username]\n"
                 + "           ,[DateOfBirth]\n"
                 + "           ,[Gender]\n"
@@ -422,7 +419,7 @@ public class DAO {
                 + "           ,[Email]\n"
                 + "           ,[PasswordHash])\n"
                 + "     VALUES\n"
-                + "           (?,?,?,?,?,?,?,?)";
+                + "           (?,?,?,?,?,?,?)";
 
         Connection conn = null;
         PreparedStatement ps = null;
@@ -432,14 +429,13 @@ public class DAO {
             ps = conn.prepareStatement(query);
 
             // Set giá trị cho các tham số
-            ps.setString(1, customer.getFirstName());
-            ps.setString(2, customer.getLastName());
-            ps.setString(3, customer.getUsername());
-            ps.setString(4, customer.getDob());
-            ps.setInt(5, customer.getGender());
-            ps.setString(6, customer.getPhone());
-            ps.setString(7, customer.getEmail());
-            ps.setString(8, customer.getPassword());
+            ps.setString(1, customer.getFullName());
+            ps.setString(2, customer.getUsername());
+            ps.setString(3, customer.getDob());
+            ps.setInt(4, customer.getGender());
+            ps.setString(5, customer.getPhone());
+            ps.setString(6, customer.getEmail());
+            ps.setString(7, customer.getPassword());
 
             // Sử dụng executeUpdate cho các câu lệnh INSERT
             int rowsAffected = ps.executeUpdate();
@@ -477,8 +473,23 @@ public class DAO {
         return yearsBetween >= 13 && yearsBetween < 100;  // Người dùng phải ít nhất 16 tuổi
     }
 
-    public void updateProfile(String firstName, String lastName, String username, String dob, int gender, String phone, String email) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void updateProfile(String fullName, String username, String dob, int gender, String phone, String email) {
+        String query = "update [dbo].[Customers] set FullName = ?, DateOfBirth = ?, Gender = ?, Phone = ?, Email = ?"
+                + " where Username = ?";
+
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, fullName);
+            ps.setString(2, dob);
+            ps.setInt(3, gender);
+            ps.setString(4, phone);
+            ps.setString(5, email);
+            ps.setString(6, username);
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+        }
     }
 
     public Doctor checkDoctorLogin(String username, String password) {

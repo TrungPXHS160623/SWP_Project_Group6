@@ -34,18 +34,18 @@ public class ProfileCustomerControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String firstName = request.getParameter("firstName");
-        String lastName = request.getParameter("lastName");
+        String fullName = request.getParameter("fullName");
         String username = request.getParameter("username");
         String dob = request.getParameter("dob");
         int gender = Integer.parseInt(request.getParameter("gender"));
         String phone = request.getParameter("phone");
         String email = request.getParameter("email");
+        String password = request.getParameter("password");
         
         DAO dao = new DAO();
         HttpSession session = request.getSession();
-        dao.updateProfile(firstName, lastName, username, dob, gender, phone, email);
-        Customer c = new Customer(0, firstName, lastName, username, dob, gender, phone, email, phone, LocalDateTime.MAX, LocalDateTime.MAX, gender);
+        dao.updateProfile(fullName, username, dob, gender, phone, email);
+        Customer c = new Customer(0, fullName, username, dob, gender, phone, email, password, LocalDateTime.MAX, LocalDateTime.MAX, gender);
         
         session.setAttribute("customer", c);
         response.sendRedirect("home");

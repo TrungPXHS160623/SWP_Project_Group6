@@ -19,7 +19,6 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                height: 100vh;
                 margin: 0;
                 color: #fff;
             }
@@ -31,7 +30,9 @@
                 border-radius: 15px;
                 width: 400px;
                 text-align: center;
-                position: relative;
+                position: -webkit-sticky;
+                position: sticky;
+                top: 20px
             }
 
             .register-container h1 {
@@ -134,9 +135,7 @@
             <form action="register" method="post">
                 <div class="input-group">
                     <i class="fas fa-user"></i>
-                    <input type="firstName" name="firstName" placeholder="Họ khách hàng" required>                
-                    <i class="fas fa-user"></i>
-                    <input type="lastName" name="lastName" placeholder="Tên khách hàng" required>
+                    <input type="fullName" name="fullName" placeholder="Họ và tên khách hàng" required>                
                 </div>
                 <div class="input-group">
                     <i class="fas fa-user"></i>

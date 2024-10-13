@@ -68,8 +68,7 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String firstName = request.getParameter("firstName");
-        String lastName = request.getParameter("lastName");
+        String fullName = request.getParameter("fullName");
         String username = request.getParameter("username");
         String dob = request.getParameter("dob");
         int gender = Integer.parseInt(request.getParameter("gender"));
@@ -77,7 +76,7 @@ public class RegisterController extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String re_password = request.getParameter("re_password");
-        Customer customer = new Customer(0, email);
+        Customer customer = new Customer(0, fullName, username, dob, gender, phone, email, password);
 
         PrintWriter out = response.getWriter();
 
