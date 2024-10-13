@@ -105,6 +105,7 @@
     <servlet-mapping>
         <servlet-name>ProfileCustomerControl</servlet-name>
         <url-pattern>/profile-customer</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>DeactiveProduct</servlet-name>
         <servlet-class>control.DeactiveProduct</servlet-class>
