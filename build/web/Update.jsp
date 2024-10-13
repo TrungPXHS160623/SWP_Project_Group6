@@ -130,18 +130,6 @@
                     <label for="specification">Thông Số Kỹ Thuật</label>
                     <input value="${load.specification}" id="specification" name="specification" type="text">
                 </div>
-                <div class="form-group">
-                    <label for="targetAudience">Đối Tượng Sử Dụng</label>
-                    <input value="${load.targetAudience}" id="targetAudience" name="targetAudience" type="text">
-                </div>
-
-                <div class="form-group">
-                    <label for="prescriptionMedication">Thuốc Theo Đơn</label>
-                    <select id="prescriptionMedication" name="prescriptionMedication" required>
-                        <option value="1" <c:if test="${load.prescriptionMedication}">selected</c:if>>Có</option>
-                        <option value="0" <c:if test="${!load.prescriptionMedication}">selected</c:if>>Không</option>
-                        </select>
-                    </div>
                     <div class="form-group">
                         <label for="shortDescription">Mô Tả Ngắn</label>
                         <textarea id="shortDescription" name="shortDescription">${load.shortDescription}</textarea>

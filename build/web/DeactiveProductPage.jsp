@@ -157,8 +157,6 @@
                         <th>Thành Phần</th>
                         <th>Cách Bào Chế</th>
                         <th>Thông Số Kỹ Thuật</th>
-                        <th>Đối Tượng Sử Dụng</th>
-                        <th>Thuốc Theo Đơn</th>
                         <th>Mô Tả Ngắn</th>
                         <th>Số Đăng Ký</th>
                         <th>Giá</th>
@@ -181,18 +179,6 @@
                             <td class="important-info">${o.ingredients}</td>
                             <td class="important-info">${o.formulation}</td>
                             <td class="important-info">${o.specification}</td>
-                            <td class="important-info">${o.targetAudience}</td>
-                            <td class="important-info">
-                                <c:choose>
-                                    <c:when test="${o.prescriptionMedication}">
-                                        Có
-                                    </c:when>
-                                    <c:otherwise>
-                                        Không
-                                    </c:otherwise>
-                                </c:choose>
-                            </td>
-
                             <td class="important-info">${o.shortDescription}</td>
                             <td class="important-info">${o.registrationNumber}</td>
                             <td class="important-info">${o.price}</td>
