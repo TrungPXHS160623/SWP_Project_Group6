@@ -6,11 +6,17 @@ package dao;
 
 import context.DBContext;
 import entity.ProductPackagingDetails;
+import entity.Admin;
 import entity.Category;
 import entity.Product;
+import entity.Customer;
+import entity.Doctor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -333,4 +339,220 @@ public class DAO {
         }
     }
 
+    public Customer checkLogin(String username, String password) throws Exception {
+        String sql = "select * from [dbo].[Customers] where [Username] = ? and [PasswordHash] = ?;";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(sql);
+
+            // Đặt giá trị cho các tham số
+            ps.setString(1, username);
+            ps.setString(2, password);
+
+            // Thực thi câu lệnh SQL
+            rs = ps.executeQuery();
+
+            // Xử lý kết quả
+            while (rs.next()) {
+                return new Customer(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getInt(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getTimestamp(9).toLocalDateTime(),
+                        rs.getTimestamp(10).toLocalDateTime(),
+                        rs.getInt(11)
+                );
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            // Đóng tài nguyên
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return null;
+    }
+
+    public List<Customer> getCustomers() throws Exception {
+        List<Customer> list = new ArrayList<>();
+        String sql = "select * from [Customers] where isActive = 1";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Customer customer = new Customer(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getInt(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getTimestamp(9).toLocalDateTime(),
+                        rs.getTimestamp(10).toLocalDateTime(),
+                        rs.getInt(11)
+                );
+                list.add(customer);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    public boolean checkUsernameExist(String username) {
+        String query = "select * from [dbo].[Customers] where [Username] = ?";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            ps.setString(1, username);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return true;
+            }
+        } catch (Exception e) {
+        }
+
+        return false;
+    }
+
+    public boolean checkEmailExist(String email) {
+        String query = "SELECT * FROM [dbo].[Customers] WHERE [Email] = ?";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return true;
+            }
+        } catch (Exception e) {
+        }
+        return false;
+    }
+
+    public boolean addCustomer(Customer customer) throws Exception {
+        if (customer == null || customer.getUsername() == null) {
+            throw new IllegalArgumentException("User hoặc username không thể null");
+        }
+
+        String query = "INSERT INTO [dbo].[Customers]\n"
+                + "           ([FullName]\n"
+                + "           ,[Username]\n"
+                + "           ,[DateOfBirth]\n"
+                + "           ,[Gender]\n"
+                + "           ,[Phone]\n"
+                + "           ,[Email]\n"
+                + "           ,[PasswordHash])\n"
+                + "     VALUES\n"
+                + "           (?,?,?,?,?,?,?)";
+
+        Connection conn = null;
+        PreparedStatement ps = null;
+
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+
+            // Set giá trị cho các tham số
+            ps.setString(1, customer.getFullName());
+            ps.setString(2, customer.getUsername());
+            ps.setString(3, customer.getDob());
+            ps.setInt(4, customer.getGender());
+            ps.setString(5, customer.getPhone());
+            ps.setString(6, customer.getEmail());
+            ps.setString(7, customer.getPassword());
+
+            // Sử dụng executeUpdate cho các câu lệnh INSERT
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            // Đảm bảo đóng PreparedStatement và Connection sau khi sử dụng
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public boolean isValidDob(String dob) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate birthDate = LocalDate.parse(dob, formatter);
+        LocalDate currentDate = LocalDate.now();
+
+        // Kiểm tra khoảng cách thời gian (tính theo năm)
+        long yearsBetween = ChronoUnit.YEARS.between(birthDate, currentDate);
+
+        return yearsBetween >= 13 && yearsBetween < 100;  // Người dùng phải ít nhất 16 tuổi
+    }
+
+    public void updateProfile(String fullName, String username, String dob, int gender, String phone, String email) {
+        String query = "update [dbo].[Customers] set FullName = ?, DateOfBirth = ?, Gender = ?, Phone = ?, Email = ?"
+                + " where Username = ?";
+
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, fullName);
+            ps.setString(2, dob);
+            ps.setInt(3, gender);
+            ps.setString(4, phone);
+            ps.setString(5, email);
+            ps.setString(6, username);
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+        }
+    }
+
+    public List<Customer> getAllCustomers() {
+        List<Customer> list = new ArrayList<>();
+
+        String query = "select * from [dbo].[Customers]";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Customer(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3), 
+                        rs.getString(4),
+                        rs.getInt(5),
+                        rs.getString(6),
+                        rs.getString(7)));
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
 }

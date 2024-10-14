@@ -4,6 +4,7 @@
     Author     : Acer
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!-- Menu -->
 <nav class="navbar navbar-expand-md navbar-dark">
@@ -24,9 +25,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">Liên hệ</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="Login.jsp">Đăng nhập</a>
-                </li>
             </ul>
 
             <form action="search" method="post" class="form-inline my-2 my-lg-0">
@@ -43,6 +41,25 @@
                     <span class="badge badge-light">3</span>
                 </a>
             </form>
+
+            <c:if test="${sessionScope.customer == null}">
+                <form class="form-inline my-2 my-lg-0">
+                    <a href="rolesLogin.jsp" class="btn btn-outline-success my-2 my-sm-0 btn-nav">Đăng nhập</a>
+                    <a href="Register.jsp" class="btn btn-outline-success my-2 my-sm-0 btn-nav">Đăng ký</a>
+                </form>
+            </c:if>
+
+            <c:if test="${sessionScope.customer != null}">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="profilecustomer.jsp">${sessionScope.customer.username}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="logout">Logout</a>
+                    </li>
+                </ul>
+            </c:if>
+
         </div>
     </div>
 </nav>
