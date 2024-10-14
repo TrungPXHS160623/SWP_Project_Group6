@@ -47,8 +47,6 @@ public class UpdateControl extends HttpServlet {
             String Ingredients = request.getParameter("ingredients");
             String Formulation = request.getParameter("formulation");
             String Specification = request.getParameter("specification");
-            String TargetAudience = request.getParameter("targetAudience");
-            boolean PrescriptionMedication = Boolean.parseBoolean(request.getParameter("prescriptionMedication")); // Chuyển đổi thành boolean
             String ShortDescription = request.getParameter("shortDescription");
             String RegistrationNumber = request.getParameter("registrationNumber");
             float Price = Float.parseFloat(request.getParameter("price")); // Chuyển đổi thành float
@@ -79,9 +77,6 @@ public class UpdateControl extends HttpServlet {
                 errors.add("Thông số kỹ thuật không được để trống.");
             }
 
-            if (TargetAudience == null || TargetAudience.isEmpty()) {
-                errors.add("Đối tượng sử dụng không được để trống.");
-            }
 
             if (ShortDescription == null || ShortDescription.isEmpty()) {
                 errors.add("Mô tả ngắn không được để trống.");
@@ -104,7 +99,7 @@ public class UpdateControl extends HttpServlet {
             if (!errors.isEmpty()) {
                 HttpSession session = request.getSession();
                 session.setAttribute("updateErrors", errors);
-                request.setAttribute("load", new Product(ProductID, ProductName, CategoryId, ProductImage, Ingredients, Formulation, Specification, TargetAudience, PrescriptionMedication, ShortDescription, RegistrationNumber, Price,isActive));
+                request.setAttribute("load", new Product(ProductID, ProductName, CategoryId, ProductImage, Ingredients, Formulation, Specification, ShortDescription, RegistrationNumber, Price,isActive));
                 // Lấy danh sách danh mục để hiển thị lại
                 DAO dao = new DAO();
                 List<Category> listCategory = dao.getAllCategory();
@@ -116,7 +111,7 @@ public class UpdateControl extends HttpServlet {
             //thực hiện thay đổi
             DAO dao = new DAO();
             //dao.UpdateProduct(ProductName, CategoryId, ProductImage, Ingredients, Formulation, Specification, TargetAudience, PrescriptionMedication, ShortDescription, RegistrationNumber, Price, ProductID, isActive);
-            dao.UpdateProduct(ProductName, CategoryId, ProductImage, Ingredients, Formulation, Specification, TargetAudience, PrescriptionMedication, ShortDescription, RegistrationNumber, Price, ProductID);
+            dao.UpdateProduct(ProductName, CategoryId, ProductImage, Ingredients, Formulation, Specification, ShortDescription, RegistrationNumber, Price, ProductID);
             //gửi thông báo thành công về trang managerProductManager nếu thành công
             HttpSession session = request.getSession();
             session.setAttribute("updateMessage", "Cập nhật sản phẩm ID " + ProductID + " thành công!");

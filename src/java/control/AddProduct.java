@@ -80,8 +80,6 @@ public class AddProduct extends HttpServlet {
             String Ingredients = request.getParameter("ingredients");
             String Formulation = request.getParameter("formulation");
             String Specification = request.getParameter("specification");
-            String TargetAudience = request.getParameter("targetAudience");
-            boolean PrescriptionMedication = Boolean.parseBoolean(request.getParameter("prescriptionMedication"));
             String ShortDescription = request.getParameter("shortDescription");
             String RegistrationNumber = request.getParameter("registrationNumber");
             float Price = Float.parseFloat(request.getParameter("price"));
@@ -111,9 +109,6 @@ public class AddProduct extends HttpServlet {
                 errors.add("Thông số kỹ thuật không được để trống.");
             }
 
-            if (TargetAudience == null || TargetAudience.isEmpty()) {
-                errors.add("Đối tượng sử dụng không được để trống.");
-            }
 
             if (ShortDescription == null || ShortDescription.isEmpty() || ShortDescription.length() > 250) {
                 errors.add("Mô tả ngắn không được để trống và phải dưới 250 ký tự.");
@@ -142,7 +137,7 @@ public class AddProduct extends HttpServlet {
 
             // Gọi hàm InsertProduct
             DAO dao = new DAO();
-            dao.InsertProduct(ProductName, CategoryId, ProductImage, Ingredients, Formulation, Specification, TargetAudience, PrescriptionMedication, ShortDescription, RegistrationNumber, Price);
+            dao.InsertProduct(ProductName, CategoryId, ProductImage, Ingredients, Formulation, Specification, ShortDescription, RegistrationNumber, Price);
 
             // Lưu thông báo thành công vào session
             HttpSession session = request.getSession();

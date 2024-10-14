@@ -5,6 +5,7 @@
 package dao;
 
 import context.DBContext;
+import entity.ProductPackagingDetails;
 import entity.Admin;
 import entity.Category;
 import entity.Product;
@@ -45,12 +46,10 @@ public class DAO {
                         rs.getString(5), // Ingredients
                         rs.getString(6), // Formulation
                         rs.getString(7), // Specification
-                        rs.getString(8), // TargetAudience
-                        rs.getBoolean(9), // PrescriptionMedication
-                        rs.getString(10), // ShortDescription
-                        rs.getString(11), // RegistrationNumber
-                        rs.getFloat(12), // Price
-                        rs.getBoolean(13) // isActive
+                        rs.getString(8), // ShortDescription
+                        rs.getString(9), // RegistrationNumber
+                        rs.getFloat(10), // Price
+                        rs.getBoolean(11) // isActive
                 ));
             }
         } catch (Exception e) {
@@ -74,12 +73,10 @@ public class DAO {
                         rs.getString(5), // Ingredients
                         rs.getString(6), // Formulation
                         rs.getString(7), // Specification
-                        rs.getString(8), // TargetAudience
-                        rs.getBoolean(9), // PrescriptionMedication
-                        rs.getString(10), // ShortDescription
-                        rs.getString(11), // RegistrationNumber
-                        rs.getFloat(12), // Price
-                        rs.getBoolean(13) // isActive
+                        rs.getString(8), // ShortDescription
+                        rs.getString(9), // RegistrationNumber
+                        rs.getFloat(10), // Price
+                        rs.getBoolean(11) // isActive
                 ));
             }
         } catch (Exception e) {
@@ -120,11 +117,9 @@ public class DAO {
                         rs.getString(6),
                         rs.getString(7),
                         rs.getString(8),
-                        rs.getBoolean(9),
-                        rs.getString(10),
-                        rs.getString(11),
-                        rs.getFloat(12),
-                        rs.getBoolean(13));
+                        rs.getString(9),
+                        rs.getFloat(10),
+                        rs.getBoolean(11));
             }
         } catch (Exception e) {
         }
@@ -134,13 +129,8 @@ public class DAO {
     public static void main(String[] args) {
         DAO dao = new DAO();
         List<Product> list = dao.getAllProduct();
-        List<Category> listc = dao.getAllCategory();
+        List<Category> listc = dao.getAllCategory();  
         Product c = dao.getLastProduct();
-
-        for (Product o : list) {
-            System.out.println(o);
-        }
-
         /*
         for (Category o : listc) {
             System.out.println(o);
@@ -166,12 +156,10 @@ public class DAO {
                         rs.getString(5), // Ingredients
                         rs.getString(6), // Formulation
                         rs.getString(7), // Specification
-                        rs.getString(8), // TargetAudience
-                        rs.getBoolean(9), // PrescriptionMedication
-                        rs.getString(10), // ShortDescription
-                        rs.getString(11), // RegistrationNumber
-                        rs.getFloat(12), // Price
-                        rs.getBoolean(13) // isActive
+                        rs.getString(8), // ShortDescription
+                        rs.getString(9), // RegistrationNumber
+                        rs.getFloat(10), // Price
+                        rs.getBoolean(11) // isActive
                 ));
             }
         } catch (Exception e) {
@@ -196,11 +184,9 @@ public class DAO {
                         rs.getString(6),
                         rs.getString(7),
                         rs.getString(8),
-                        rs.getBoolean(9),
-                        rs.getString(10),
-                        rs.getString(11),
-                        rs.getFloat(12),
-                        rs.getBoolean(13));
+                        rs.getString(9),
+                        rs.getFloat(10),
+                        rs.getBoolean(11));
             }
         } catch (Exception e) {
         }
@@ -224,12 +210,10 @@ public class DAO {
                         rs.getString(5), // Ingredients
                         rs.getString(6), // Formulation
                         rs.getString(7), // Specification
-                        rs.getString(8), // TargetAudience
-                        rs.getBoolean(9), // PrescriptionMedication
-                        rs.getString(10), // ShortDescription
-                        rs.getString(11), // RegistrationNumber
-                        rs.getFloat(12), // Price
-                        rs.getBoolean(13) // isActive
+                        rs.getString(8), // ShortDescription
+                        rs.getString(9), // RegistrationNumber
+                        rs.getFloat(10), // Price
+                        rs.getBoolean(11) // isActive
                 ));
             }
         } catch (Exception e) {
@@ -275,8 +259,6 @@ public class DAO {
             String Ingredients,
             String Formulation,
             String Specification,
-            String TargetAudience,
-            boolean PrescriptionMedication,
             String ShortDescription,
             String RegistrationNumber,
             float Price) {
@@ -287,7 +269,7 @@ public class DAO {
                 + "([ProductName], [CategoryID], [ProductImage], [Ingredients], "
                 + "[Formulation], [Specification], [TargetAudience], "
                 + "[PrescriptionMedication], [ShortDescription], [RegistrationNumber], [Price], [isActive]) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         Connection conn = null;
         PreparedStatement ps = null;
@@ -302,12 +284,10 @@ public class DAO {
             ps.setString(4, Ingredients);
             ps.setString(5, Formulation);
             ps.setString(6, Specification);
-            ps.setString(7, TargetAudience);
-            ps.setBoolean(8, PrescriptionMedication);
-            ps.setString(9, ShortDescription);
-            ps.setString(10, RegistrationNumber);
-            ps.setFloat(11, Price);
-            ps.setBoolean(12, isActive);
+            ps.setString(7, ShortDescription);
+            ps.setString(8, RegistrationNumber);
+            ps.setFloat(9, Price);
+            ps.setBoolean(10, isActive);
 
             ps.executeUpdate();
 
@@ -322,8 +302,6 @@ public class DAO {
             String Ingredients,
             String Formulation,
             String Specification,
-            String TargetAudience,
-            boolean PrescriptionMedication,
             String ShortDescription,
             String RegistrationNumber,
             float Price,
@@ -335,8 +313,6 @@ public class DAO {
                 + "      ,[Ingredients] = ?\n"
                 + "      ,[Formulation] = ?\n"
                 + "      ,[Specification] = ?\n"
-                + "      ,[TargetAudience] = ?\n"
-                + "      ,[PrescriptionMedication] = ?\n"
                 + "      ,[ShortDescription] = ?\n"
                 + "      ,[RegistrationNumber] = ?\n"
                 + "      ,[Price] = ?\n"
@@ -351,12 +327,10 @@ public class DAO {
             ps.setString(4, Ingredients);         // OK
             ps.setString(5, Formulation);         // OK
             ps.setString(6, Specification);       // OK
-            ps.setString(7, TargetAudience);      // OK
-            ps.setBoolean(8, PrescriptionMedication); // OK
-            ps.setString(9, ShortDescription);    // OK
-            ps.setString(10, RegistrationNumber); // OK
-            ps.setFloat(11, Price);               // OK
-            ps.setInt(12, ProductID);             // Cập nhật vị trí ProductID
+            ps.setString(7, ShortDescription);    // OK
+            ps.setString(8, RegistrationNumber); // OK
+            ps.setFloat(9, Price);               // OK
+            ps.setInt(10, ProductID);             // Cập nhật vị trí ProductID
 
             ps.executeUpdate();
 
@@ -560,11 +534,25 @@ public class DAO {
         }
     }
 
-    public Doctor checkDoctorLogin(String username, String password) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    public List<Customer> getAllCustomers() {
+        List<Customer> list = new ArrayList<>();
 
-    public Admin checkAdminLogin(String username, String password) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String query = "select * from [dbo].[Customers]";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Customer(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3), 
+                        rs.getString(4),
+                        rs.getInt(5),
+                        rs.getString(6),
+                        rs.getString(7)));
+            }
+        } catch (Exception e) {
+        }
+        return list;
     }
 }

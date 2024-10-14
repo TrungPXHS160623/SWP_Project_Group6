@@ -77,7 +77,7 @@
                 justify-content: center; /* Căn giữa nút */
                 align-items: center;
                 height: 100%;
-                
+
             }
 
             .button {
@@ -128,6 +128,14 @@
 
             .button.deactivate:hover {
                 background-color: #c82333; /* Màu đỏ đậm khi hover */
+            }
+            
+            .button.package {
+                background-color: #007bff; /* Màu xanh lam cho nút */
+            }
+
+            .button.package:hover {
+                background-color: #0056b3; /* Màu xanh lam đậm khi hover */
             }
 
             img.product-image {
@@ -279,7 +287,7 @@
         %>
 
 
-    
+
 
 
         <div class="container">
@@ -308,7 +316,7 @@
                     </form>
                 </div>
 
-
+                <a href="viewproductswithpackaging"  style="margin-left: 10px;">Xem Danh Sách Sản Phẩm Kèm Bao Bì</a>
                 <a href="managerdeactiveproduct"  style="margin-left: 10px;">Xem Sản Phẩm Đang Bị Vô Hiệu Hóa</a>
                 <a href="add">Thêm Sản Phẩm</a>
 
@@ -323,8 +331,6 @@
                         <th>Thành Phần</th>
                         <th>Cách Bào Chế</th>
                         <th>Thông Số Kỹ Thuật</th>
-                        <th>Đối Tượng Sử Dụng</th>
-                        <th>Thuốc Theo Đơn</th>
                         <th>Mô Tả Ngắn</th>
                         <th>Số Đăng Ký</th>
                         <th>Giá</th>
@@ -347,18 +353,6 @@
                             <td class="important-info">${o.ingredients}</td>
                             <td class="important-info">${o.formulation}</td>
                             <td class="important-info">${o.specification}</td>
-                            <td class="important-info">${o.targetAudience}</td>
-                            <td class="important-info">
-                                <c:choose>
-                                    <c:when test="${o.prescriptionMedication}">
-                                        Có
-                                    </c:when>
-                                    <c:otherwise>
-                                        Không
-                                    </c:otherwise>
-                                </c:choose>
-                            </td>
-
                             <td class="important-info">${o.shortDescription}</td>
                             <td class="important-info">${o.registrationNumber}</td>
                             <td class="important-info">${o.price}</td>
@@ -370,6 +364,10 @@
                                 <form action="deactive" method="post" style="display:inline;">
                                     <input type="hidden" name="pid2" value="${o.productID}">
                                     <button type="submit" class="button deactivate">Vô hiệu hóa</button>
+                                </form>
+                                <form action="viewproductswithpackaging" method="post" style="display:inline;">
+                                    <input type="hidden" name="pid3" value="${o.productID}">
+                                    <button type="submit" class="button package">Chi tiết bao bì</button>
                                 </form>
                             </td>
                         </tr>  

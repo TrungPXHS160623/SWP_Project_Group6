@@ -1,4 +1,4 @@
-/*
+ /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -16,8 +16,6 @@ public class Product {
     private String Ingredients;
     private String Formulation;
     private String Specification;
-    private String TargetAudience;
-    private boolean PrescriptionMedication;
     private String ShortDescription;
     private String RegistrationNumber;
     private float Price;
@@ -26,7 +24,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(int ProductID, String ProductName, int CategoryId, String ProductImage, String Ingredients, String Formulation, String Specification, String TargetAudience, boolean PrescriptionMedication, String ShortDescription, String RegistrationNumber, float Price, Boolean isActive) {
+    public Product(int ProductID, String ProductName, int CategoryId, String ProductImage, String Ingredients, String Formulation, String Specification, String ShortDescription, String RegistrationNumber, float Price, Boolean isActive) {
         this.ProductID = ProductID;
         this.ProductName = ProductName;
         this.CategoryId = CategoryId;
@@ -34,8 +32,6 @@ public class Product {
         this.Ingredients = Ingredients;
         this.Formulation = Formulation;
         this.Specification = Specification;
-        this.TargetAudience = TargetAudience;
-        this.PrescriptionMedication = PrescriptionMedication;
         this.ShortDescription = ShortDescription;
         this.RegistrationNumber = RegistrationNumber;
         this.Price = Price;
@@ -68,14 +64,6 @@ public class Product {
 
     public String getSpecification() {
         return Specification;
-    }
-
-    public String getTargetAudience() {
-        return TargetAudience;
-    }
-
-    public boolean isPrescriptionMedication() {
-        return PrescriptionMedication;
     }
 
     public String getShortDescription() {
@@ -123,14 +111,6 @@ public class Product {
         this.Specification = specification;
     }
 
-    public void setTargetAudience(String targetAudience) {
-        this.TargetAudience = targetAudience;
-    }
-
-    public void setPrescriptionMedication(boolean prescriptionMedication) {
-        this.PrescriptionMedication = prescriptionMedication;
-    }
-
     public void setShortDescription(String shortDescription) {
         this.ShortDescription = shortDescription;
     }
@@ -158,8 +138,6 @@ public class Product {
                 ", Ingredients='" + Ingredients + '\'' +
                 ", Formulation='" + Formulation + '\'' +
                 ", Specification='" + Specification + '\'' +
-                ", TargetAudience='" + TargetAudience + '\'' +
-                ", PrescriptionMedication=" + PrescriptionMedication +
                 ", ShortDescription='" + ShortDescription + '\'' +
                 ", RegistrationNumber='" + RegistrationNumber + '\'' +
                 ", Price=" + Price +

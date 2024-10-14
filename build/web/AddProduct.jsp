@@ -124,17 +124,6 @@
                     <input id="specification" name="specification" type="text">
                 </div>
                 <div class="form-group">
-                    <label for="targetAudience">Đối Tượng Sử Dụng</label>
-                    <input id="targetAudience" name="targetAudience" type="text">
-                </div>
-                <div class="form-group">
-                    <label for="prescriptionMedication">Thuốc Theo Đơn</label>
-                    <select id="prescriptionMedication" name="prescriptionMedication" required>
-                        <option value="1">Có</option>
-                        <option value="0">Không</option>
-                    </select>
-                </div>
-                <div class="form-group">
                     <label for="shortDescription">Mô Tả Ngắn</label>
                     <textarea id="shortDescription" name="shortDescription"></textarea>
                 </div>
