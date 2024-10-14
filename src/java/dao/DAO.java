@@ -560,11 +560,25 @@ public class DAO {
         }
     }
 
-    public Doctor checkDoctorLogin(String username, String password) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    public List<Customer> getAllCustomers() {
+        List<Customer> list = new ArrayList<>();
 
-    public Admin checkAdminLogin(String username, String password) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String query = "select * from [dbo].[Customers]";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Customer(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3), 
+                        rs.getString(4),
+                        rs.getInt(5),
+                        rs.getString(6),
+                        rs.getString(7)));
+            }
+        } catch (Exception e) {
+        }
+        return list;
     }
 }
