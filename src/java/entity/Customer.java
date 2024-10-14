@@ -27,10 +27,15 @@ public class Customer {
     public Customer() {
     }
 
-//    public Customer(int customerId, String email) {
-//        this.customerId = customerId;
-//        this.email = email;
-//    }
+    public Customer(int customerId, String fullName, String username, String dob, int gender, String phone, String email) {
+        this.customerId = customerId;
+        this.fullName = fullName;
+        this.username = username;
+        this.dob = dob;
+        this.gender = gender;
+        this.phone = phone;
+        this.email = email;
+    }
 
     public Customer(int customerId, String fullName, String username, String dob, int gender, String phone, String email, String password) {
         this.customerId = customerId;
