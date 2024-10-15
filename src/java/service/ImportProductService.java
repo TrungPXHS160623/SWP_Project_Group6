@@ -9,8 +9,6 @@ import dao.ProductImportDetailsDAO;
 import dao.ProductImportsDAO;
 import dao.ProductionBatchDAO;
 import entity.ProductImportDetails;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,7 +25,7 @@ public class ImportProductService {
     private InventoryDAO inventoryDAO = new InventoryDAO();
 
     // Quy trình nhập kho hoàn chỉnh
-    public boolean importProducts(long employeeId, long supplierId, long warehouseId, Date importDate, List<ProductImportDetails> importDetails, int statusId) throws Exception {
+    public boolean importProducts(int employeeId, int supplierId, int warehouseId, Date importDate, List<ProductImportDetails> importDetails, int statusId) throws Exception {
         // Bước 1: Tạo đơn nhập kho
         boolean createdImport = productImportDAO.createImport(warehouseId, employeeId, supplierId, importDate, statusId);
         if (!createdImport) {
@@ -35,7 +33,7 @@ public class ImportProductService {
         }
 
         // Lấy ID của đơn nhập kho mới tạo
-        long importId = productImportDAO.getLastInsertedImportId();
+        int importId = productImportDAO.getLastInsertedImportId();
         if (importId == -1) {
             return false;
         }
@@ -55,7 +53,7 @@ public class ImportProductService {
             }
 
             // Cập nhật tồn kho
-            boolean updatedInventory = inventoryDAO.createInventory(detail.getProduct_id(), warehouseId, detail.getPackaging_id(), detail.getQuantity());
+            boolean updatedInventory = inventoryDAO.createOrUpdateInventory(detail.getProduct_id(), warehouseId, detail.getPackaging_id(), detail.getQuantity());
             if (!updatedInventory) {
                 return false;
             }
@@ -69,13 +67,16 @@ public class ImportProductService {
         List<ProductImportDetails> importDetails = new ArrayList<>();
 
         // Thêm chi tiết sản phẩm vào danh sách
-        importDetails.add(new ProductImportDetails(1, 1, 62, 1,
-                new BigDecimal("10.00"), new BigDecimal("10.00"),
-                "Batch001", new Date(), new Date()));
+        importDetails.add(new ProductImportDetails(1, 1, 68, 1, 10, 10.00f, // Sử dụng 10.00f cho float
+                "Batch001",
+                new Date(),
+                new Date()));
 
-        importDetails.add(new ProductImportDetails(2, 1, 63, 1,
-                new BigDecimal("20.00"), new BigDecimal("20.00"),
-                "Batch002", new Date(), new Date()));
+        // Thêm chi tiết sản phẩm thứ hai
+        importDetails.add(new ProductImportDetails(2, 1, 69, 1, 20, 20.00f, // Sử dụng 20.00f cho float
+                "Batch002",
+                new Date(),
+                new Date()));
 
         // Thực hiện nhập sản phẩm
         ImportProductService importProductService = new ImportProductService();

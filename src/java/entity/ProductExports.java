@@ -4,7 +4,6 @@
  */
 package entity;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -12,18 +11,18 @@ import java.util.Date;
  * @author Acer
  */
 public class ProductExports {
-    private long id;               // ID duy nhất cho lần xuất kho
-    private long storeId;          // Liên kết tới cửa hàng (kho hàng)
-    private long employeeId;       // Liên kết tới nhân viên thực hiện xuất kho
+    private int id;               // ID duy nhất cho lần xuất kho
+    private int storeId;          // Liên kết tới cửa hàng (kho hàng)
+    private int employeeId;       // Liên kết tới nhân viên thực hiện xuất kho
     private Date exportDate;       // Ngày xuất kho
     private int status_id;
-    public LocalDateTime created_at;
-    public LocalDateTime updated_at;
+    public Date created_at;
+    public Date updated_at;
 
     public ProductExports() {
     }
 
-    public ProductExports(long id, long storeId, long employeeId, Date exportDate, int status_id, LocalDateTime created_at, LocalDateTime updated_at) {
+    public ProductExports(int id, int storeId, int employeeId, Date exportDate, int status_id, Date created_at, Date updated_at) {
         this.id = id;
         this.storeId = storeId;
         this.employeeId = employeeId;
@@ -33,15 +32,15 @@ public class ProductExports {
         this.updated_at = updated_at;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public long getStoreId() {
+    public int getStoreId() {
         return storeId;
     }
 
-    public long getEmployeeId() {
+    public int getEmployeeId() {
         return employeeId;
     }
 
@@ -53,23 +52,23 @@ public class ProductExports {
         return status_id;
     }
 
-    public LocalDateTime getCreated_at() {
+    public Date getCreated_at() {
         return created_at;
     }
 
-    public LocalDateTime getUpdated_at() {
+    public Date getUpdated_at() {
         return updated_at;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public void setStoreId(long storeId) {
+    public void setStoreId(int storeId) {
         this.storeId = storeId;
     }
 
-    public void setEmployeeId(long employeeId) {
+    public void setEmployeeId(int employeeId) {
         this.employeeId = employeeId;
     }
 
@@ -81,11 +80,11 @@ public class ProductExports {
         this.status_id = status_id;
     }
 
-    public void setCreated_at(LocalDateTime created_at) {
+    public void setCreated_at(Date created_at) {
         this.created_at = created_at;
     }
 
-    public void setUpdated_at(LocalDateTime updated_at) {
+    public void setUpdated_at(Date updated_at) {
         this.updated_at = updated_at;
     }
 

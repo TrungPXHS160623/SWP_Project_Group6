@@ -4,24 +4,26 @@
  */
 package entity;
 
-import java.time.LocalDateTime;
+import java.util.Date;
+
+
 
 /**
  *
  * @author Acer
  */
 public class WareHouse {
-    private long id;                // ID duy nhất cho cửa hàng/kho
+    private int id;                // ID duy nhất cho cửa hàng/kho
     private String store_code;       // Mã cửa hàng (store_code)
     private String store_name;       // Tên cửa hàng (store_name)
     private String description;     // Mô tả cửa hàng (description)
-    public LocalDateTime created_at;
-    public LocalDateTime updated_at;    
+    public Date created_at;
+    public Date updated_at;    
 
     public WareHouse() {
     }
 
-    public WareHouse(long id, String store_code, String store_name, String description, LocalDateTime created_at, LocalDateTime updated_at) {
+    public WareHouse(int id, String store_code, String store_name, String description, Date created_at, Date updated_at) {
         this.id = id;
         this.store_code = store_code;
         this.store_name = store_name;
@@ -30,7 +32,7 @@ public class WareHouse {
         this.updated_at = updated_at;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -46,15 +48,15 @@ public class WareHouse {
         return description;
     }
 
-    public LocalDateTime getCreated_at() {
+    public Date getCreated_at() {
         return created_at;
     }
 
-    public LocalDateTime getUpdated_at() {
+    public Date getUpdated_at() {
         return updated_at;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -70,11 +72,11 @@ public class WareHouse {
         this.description = description;
     }
 
-    public void setCreated_at(LocalDateTime created_at) {
+    public void setCreated_at(Date created_at) {
         this.created_at = created_at;
     }
 
-    public void setUpdated_at(LocalDateTime updated_at) {
+    public void setUpdated_at(Date updated_at) {
         this.updated_at = updated_at;
     }
 

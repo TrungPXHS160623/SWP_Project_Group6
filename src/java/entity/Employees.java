@@ -9,7 +9,7 @@ package entity;
  * @author Acer
  */
 public class Employees {
-    private long employee_id;         // ID duy nhất cho nhân viên
+    private int employee_id;         // ID duy nhất cho nhân viên
     private String employee_name;     // Tên nhân viên
     private String PasswordHash;     // Mã băm mật khẩu
     private String employee_email;    // Địa chỉ email của nhân viên
@@ -21,7 +21,7 @@ public class Employees {
     public Employees() {
     }
 
-    public Employees(long employee_id, String employee_name, String PasswordHash, String employee_email, String employee_phone, boolean isActive, int pharmacyId, int roleId) {
+    public Employees(int employee_id, String employee_name, String PasswordHash, String employee_email, String employee_phone, boolean isActive, int pharmacyId, int roleId) {
         this.employee_id = employee_id;
         this.employee_name = employee_name;
         this.PasswordHash = PasswordHash;
@@ -32,7 +32,7 @@ public class Employees {
         this.roleId = roleId;
     }
 
-    public long getEmployee_id() {
+    public int getEmployee_id() {
         return employee_id;
     }
 
@@ -64,7 +64,7 @@ public class Employees {
         return roleId;
     }
 
-    public void setEmployee_id(long employee_id) {
+    public void setEmployee_id(int employee_id) {
         this.employee_id = employee_id;
     }
 

@@ -29,12 +29,12 @@ public class WarehouseDAO {
             rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new WareHouse(
-                        rs.getLong("id"), // ID cửa hàng/kho
+                        rs.getInt("id"), // ID cửa hàng/kho
                         rs.getString("store_code"), // Mã cửa hàng
                         rs.getString("store_name"), // Tên cửa hàng
                         rs.getString("description"), // Mô tả cửa hàng
-                        rs.getTimestamp("created_at").toLocalDateTime(), // Thời gian tạo
-                        rs.getTimestamp("updated_at").toLocalDateTime()  // Thời gian cập nhật
+                        rs.getDate("created_at"),
+                        rs.getDate("updated_at")
                 ));
             }
         } catch (Exception e) {
@@ -42,6 +42,7 @@ public class WarehouseDAO {
         }
         return list;
     }
+    
 
     // Thêm kho/cửa hàng
     public void insertWarehouse(String storeCode, String storeName, String description) {
@@ -61,7 +62,7 @@ public class WarehouseDAO {
     }
 
     // Cập nhật kho/cửa hàng
-    public void updateWarehouse(long id, String storeCode, String storeName, String description) {
+    public void updateWarehouse(int id, String storeCode, String storeName, String description) {
         String query = "UPDATE WareHouse_Final SET store_code = ?, store_name = ?, description = ?, updated_at = ? WHERE id = ?";
         try {
             conn = new DBContext().getConnection();
@@ -70,7 +71,7 @@ public class WarehouseDAO {
             ps.setString(2, storeName);
             ps.setString(3, description);
             ps.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now())); // Cập nhật thời gian hiện tại
-            ps.setLong(5, id);
+            ps.setInt(5, id);
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -78,12 +79,12 @@ public class WarehouseDAO {
     }
 
     // Xóa kho/cửa hàng
-    public void deleteWarehouse(long id) {
+    public void deleteWarehouse(int id) {
         String query = "DELETE FROM WareHouse_Final WHERE id = ?";
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
-            ps.setLong(1, id);
+            ps.setInt(1, id);
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -91,21 +92,21 @@ public class WarehouseDAO {
     }
 
     // Lấy kho/cửa hàng theo ID
-    public WareHouse getWarehouseById(long id) {
+    public WareHouse getWarehouseById(int id) {
         String query = "SELECT * FROM WareHouse_Final WHERE id = ?";
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
-            ps.setLong(1, id);
+            ps.setInt(1, id);
             rs = ps.executeQuery();
             if (rs.next()) {
                 return new WareHouse(
-                        rs.getLong("id"),
+                        rs.getInt("id"),
                         rs.getString("store_code"),
                         rs.getString("store_name"),
                         rs.getString("description"),
-                        rs.getTimestamp("created_at").toLocalDateTime(),
-                        rs.getTimestamp("updated_at").toLocalDateTime()
+                        rs.getDate("created_at"),
+                        rs.getDate("updated_at")
                 );
             }
         } catch (Exception e) {

@@ -23,7 +23,7 @@ public class ProductionBatchDAO {
     PreparedStatement ps = null;
     ResultSet rs = null;
 
-    public boolean createProductionBatch(int productId, long importId, String batchNumber, Date manufactureDate, Date expirationDate, boolean isActive) throws Exception {
+    public boolean createProductionBatch(int productId, int importId, String batchNumber, Date manufactureDate, Date expirationDate, boolean isActive) {
         
         String query = "INSERT INTO ProductionBatch_Final (ProductID, ImportID, BatchNumber, ManufactureDate, ExpirationDate, IsActive) "
                 + "VALUES (?, ?, ?, ?, ?, ?)";
@@ -32,7 +32,7 @@ public class ProductionBatchDAO {
             ps = conn.prepareStatement(query);
 
             ps.setInt(1, productId);
-            ps.setLong(2, importId);
+            ps.setInt(2, importId);
             ps.setString(3, batchNumber);
             ps.setDate(4, new java.sql.Date(manufactureDate.getTime()));  // Chuyển từ java.util.Date sang java.sql.Date
             ps.setDate(5, new java.sql.Date(expirationDate.getTime()));   // Chuyển từ java.util.Date sang java.sql.Date
@@ -40,15 +40,14 @@ public class ProductionBatchDAO {
 
             return ps.executeUpdate() > 0;
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
+        } catch (Exception e) {
+        }  finally {
             closeResources();
         }
         return false;
     }
 
-    public List<ProductionBatch> getAllProductionBatches() throws Exception {
+    public List<ProductionBatch> getAllProductionBatches()  {
         List<ProductionBatch> batches = new ArrayList<>();
         // Sửa tên cột cho khớp với cơ sở dữ liệu
         String query = "SELECT * FROM ProductionBatch_Final";
@@ -58,24 +57,23 @@ public class ProductionBatchDAO {
             rs = ps.executeQuery();
             while (rs.next()) {
                 ProductionBatch batch = new ProductionBatch();
-                batch.setBatchId(rs.getLong("BatchID"));  // Đúng với tên cột trong DB
+                batch.setBatchId(rs.getInt("BatchID"));  // Đúng với tên cột trong DB
                 batch.setProductId(rs.getInt("ProductID"));  // Đúng với tên cột trong DB
-                batch.setImportId(rs.getLong("ImportID"));  // Đúng với tên cột trong DB
+                batch.setImportId(rs.getInt("ImportID"));  // Đúng với tên cột trong DB
                 batch.setBatchNumber(rs.getString("BatchNumber"));
                 batch.setManufactureDate(rs.getDate("ManufactureDate"));
                 batch.setExpirationDate(rs.getDate("ExpirationDate"));
                 batch.setIsActive(rs.getBoolean("IsActive"));
                 batches.add(batch);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
+        } catch (Exception e) {
+        }  finally {
             closeResources();
         }
         return batches;
     }
 
-    public boolean updateProductionBatch(long batchId, int productId, long importId, String batchNumber, Date manufactureDate, Date expirationDate, boolean isActive) throws Exception {
+    public boolean updateProductionBatch(int batchId, int productId, int importId, String batchNumber, Date manufactureDate, Date expirationDate, boolean isActive) {
         // Sửa tên cột cho khớp với cơ sở dữ liệu
         String query = "UPDATE ProductionBatch_Final SET ProductID = ?, ImportID = ?, BatchNumber = ?, ManufactureDate = ?, ExpirationDate = ?, IsActive = ? WHERE BatchID = ?";
         try {
@@ -83,35 +81,33 @@ public class ProductionBatchDAO {
             ps = conn.prepareStatement(query);
 
             ps.setInt(1, productId);
-            ps.setLong(2, importId);
+            ps.setInt(2, importId);
             ps.setString(3, batchNumber);
             ps.setDate(4, new java.sql.Date(manufactureDate.getTime())); // Chuyển từ java.util.Date sang java.sql.Date
             ps.setDate(5, new java.sql.Date(expirationDate.getTime()));  // Chuyển từ java.util.Date sang java.sql.Date
             ps.setBoolean(6, isActive);
-            ps.setLong(7, batchId);
+            ps.setInt(7, batchId);
 
             return ps.executeUpdate() > 0;
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
+        } catch (Exception e) {
+        }  finally {
             closeResources();
         }
         return false;
     }
 
-    public boolean deleteProductionBatch(long batchId) throws Exception {
+    public boolean deleteProductionBatch(int batchId)  {
         // Sửa tên cột cho khớp với cơ sở dữ liệu
         String query = "DELETE FROM ProductionBatch_Final WHERE BatchID = ?";
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
-            ps.setLong(1, batchId);
+            ps.setInt(1, batchId);
             return ps.executeUpdate() > 0;
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
+        } catch (Exception e) {
+        }  finally {
             closeResources();
         }
         return false;
@@ -139,7 +135,7 @@ public class ProductionBatchDAO {
 
         // Tạo một lô sản xuất mới
         int productId = 60;
-        long importId = 1;
+        int importId = 1;
         String batchNumber = "BATCH001";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date manufactureDate = sdf.parse("2024-10-10"); // Ví dụ ngày sản xuất là 10/10/2024
@@ -172,7 +168,7 @@ public class ProductionBatchDAO {
 //
 //        // Xóa lô sản xuất
 //        if (!batches.isEmpty()) {
-//            long batchIdToDelete = batches.get(0).getBatchId();
+//            int batchIdToDelete = batches.get(0).getBatchId();
 //            boolean isDeleted = productionBatchDAO.deleteProductionBatch(batchIdToDelete);
 //            if (isDeleted) {
 //                System.out.println("Lô sản xuất đã được xóa thành công.");

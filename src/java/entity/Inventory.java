@@ -4,7 +4,7 @@
  */
 package entity;
 
-import java.math.BigDecimal;
+
 
 /**
  *
@@ -12,14 +12,14 @@ import java.math.BigDecimal;
  */
 public class Inventory {
     private int productId;           // Liên kết tới sản phẩm
-    private long warehouseId;        // Liên kết tới kho
+    private int warehouseId;        // Liên kết tới kho
     private int packagingId;         // Liên kết tới loại bao bì
-    private BigDecimal currentQuantity; // Số lượng tồn kho theo loại bao bì
+    private int currentQuantity; // Số lượng tồn kho theo loại bao bì
 
     public Inventory() {
     }
 
-    public Inventory(int productId, long warehouseId, int packagingId, BigDecimal currentQuantity) {
+    public Inventory(int productId, int warehouseId, int packagingId, int currentQuantity) {
         this.productId = productId;
         this.warehouseId = warehouseId;
         this.packagingId = packagingId;
@@ -30,7 +30,7 @@ public class Inventory {
         return productId;
     }
 
-    public long getWarehouseId() {
+    public int getWarehouseId() {
         return warehouseId;
     }
 
@@ -38,7 +38,7 @@ public class Inventory {
         return packagingId;
     }
 
-    public BigDecimal getCurrentQuantity() {
+    public int getCurrentQuantity() {
         return currentQuantity;
     }
 
@@ -46,7 +46,7 @@ public class Inventory {
         this.productId = productId;
     }
 
-    public void setWarehouseId(long warehouseId) {
+    public void setWarehouseId(int warehouseId) {
         this.warehouseId = warehouseId;
     }
 
@@ -54,7 +54,7 @@ public class Inventory {
         this.packagingId = packagingId;
     }
 
-    public void setCurrentQuantity(BigDecimal currentQuantity) {
+    public void setCurrentQuantity(int currentQuantity) {
         this.currentQuantity = currentQuantity;
     }
 

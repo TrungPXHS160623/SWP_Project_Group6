@@ -9,12 +9,14 @@ import entity.Supplier;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.sql.Timestamp;
 
 public class SupplierDAO {
+
     Connection conn = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
@@ -29,19 +31,41 @@ public class SupplierDAO {
             rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Supplier(
-                        rs.getLong("supplier_id"), // ID nhà cung cấp
+                        rs.getInt("supplier_id"), // ID nhà cung cấp
                         rs.getString("supplier_name"), // Tên nhà cung cấp
                         rs.getString("contact_name"), // Tên người liên hệ
                         rs.getString("contact_email"), // Email người liên hệ
                         rs.getString("address"), // Địa chỉ
-                        rs.getTimestamp("created_at").toLocalDateTime(), // Thời gian tạo
-                        rs.getTimestamp("updated_at").toLocalDateTime()  // Thời gian cập nhật
+                        rs.getDate("created_at"),
+                        rs.getDate("updated_at")
                 ));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return list;
+    }
+    
+    public Supplier getSupplierById(String sid)
+    {
+        String query = "select * from Suppliers_Final where supplier_id = ?";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, sid);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return new Supplier(rs.getInt(1)
+                        , rs.getString(2)
+                        , rs.getString(3)
+                        , rs.getString(4)
+                        , rs.getString(5)
+                        , rs.getDate("created_at")
+                        , rs.getDate("updated_at"));
+            }
+        } catch (Exception e) {
+        }
+        return null;
     }
 
     // Thêm nhà cung cấp
@@ -63,7 +87,7 @@ public class SupplierDAO {
     }
 
     // Cập nhật nhà cung cấp
-    public void updateSupplier(long supplierId, String supplierName, String contactName, String contactEmail, String address) {
+    public void updateSupplier(int supplierId, String supplierName, String contactName, String contactEmail, String address) {
         String query = "UPDATE Suppliers_Final SET supplier_name = ?, contact_name = ?, contact_email = ?, address = ?, updated_at = ? WHERE supplier_id = ?";
         try {
             conn = new DBContext().getConnection();
@@ -73,7 +97,7 @@ public class SupplierDAO {
             ps.setString(3, contactEmail);
             ps.setString(4, address);
             ps.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now())); // Cập nhật thời gian hiện tại
-            ps.setLong(6, supplierId);
+            ps.setInt(6, supplierId);
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -81,12 +105,12 @@ public class SupplierDAO {
     }
 
     // Xóa nhà cung cấp
-    public void deleteSupplier(long supplierId) {
+    public void deleteSupplier(int supplierId) {
         String query = "DELETE FROM Suppliers_Final WHERE supplier_id = ?";
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
-            ps.setLong(1, supplierId);
+            ps.setInt(1, supplierId);
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -94,22 +118,22 @@ public class SupplierDAO {
     }
 
     // Lấy nhà cung cấp theo ID
-    public Supplier getSupplierById(long supplierId) {
+    public Supplier getSupplierById(int supplierId) {
         String query = "SELECT * FROM Suppliers_Final WHERE supplier_id = ?";
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
-            ps.setLong(1, supplierId);
+            ps.setInt(1, supplierId);
             rs = ps.executeQuery();
             if (rs.next()) {
                 return new Supplier(
-                        rs.getLong("supplier_id"),
+                        rs.getInt("supplier_id"),
                         rs.getString("supplier_name"),
                         rs.getString("contact_name"),
                         rs.getString("contact_email"),
                         rs.getString("address"),
-                        rs.getTimestamp("created_at").toLocalDateTime(),
-                        rs.getTimestamp("updated_at").toLocalDateTime()
+                        rs.getDate("created_at"),
+                        rs.getDate("updated_at")
                 );
             }
         } catch (Exception e) {
@@ -124,14 +148,17 @@ public class SupplierDAO {
         // Kiểm tra chức năng lấy danh sách nhà cung cấp
         List<Supplier> suppliers = supplierDAO.getAllSuppliers();
         for (Supplier supplier : suppliers) {
-            System.out.println("Supplier ID: " + supplier.getSupplier_id() +
-                               ", Supplier Name: " + supplier.getSupplier_name() +
-                               ", Contact Name: " + supplier.getContact_name() +
-                               ", Contact Email: " + supplier.getContact_email() +
-                               ", Address: " + supplier.getAddress() +
-                               ", Created At: " + supplier.getCreated_at() +
-                               ", Updated At: " + supplier.getUpdated_at());
+            System.out.println("Supplier ID: " + supplier.getSupplier_id()
+                    + ", Supplier Name: " + supplier.getSupplier_name()
+                    + ", Contact Name: " + supplier.getContact_name()
+                    + ", Contact Email: " + supplier.getContact_email()
+                    + ", Address: " + supplier.getAddress()
+                    + ", Created At: " + supplier.getCreated_at()
+                    + ", Updated At: " + supplier.getUpdated_at());
         }
+        Supplier ok = supplierDAO.getSupplierById(1);
+        System.out.println(ok);
+        
 
 //        // Thêm một nhà cung cấp mới
 //        supplierDAO.insertSupplier("Nhà cung cấp A", "Người liên hệ A", "contactA@example.com", "123 Địa chỉ A");
@@ -162,4 +189,3 @@ public class SupplierDAO {
 //        }
     }
 }
-

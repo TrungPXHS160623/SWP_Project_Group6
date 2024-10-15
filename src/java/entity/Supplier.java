@@ -4,7 +4,9 @@
  */
 package entity;
 
-import java.time.LocalDateTime;
+import java.util.Date;
+
+
 
 
 
@@ -14,18 +16,18 @@ import java.time.LocalDateTime;
  */
 public class Supplier {
     
-    public long supplier_id;
+    public int supplier_id;
     public String supplier_name;
     public String contact_name;
     public String contact_email;
     public String address;
-    public LocalDateTime created_at;
-    public LocalDateTime updated_at;
+    public Date created_at;
+    public Date updated_at;
 
     public Supplier() {
     }
 
-    public Supplier(long supplier_id, String supplier_name, String contact_name, String contact_email, String address, LocalDateTime created_at, LocalDateTime updated_at) {
+    public Supplier(int supplier_id, String supplier_name, String contact_name, String contact_email, String address, Date created_at, Date updated_at) {
         this.supplier_id = supplier_id;
         this.supplier_name = supplier_name;
         this.contact_name = contact_name;
@@ -35,7 +37,7 @@ public class Supplier {
         this.updated_at = updated_at;
     }
 
-    public long getSupplier_id() {
+    public int getSupplier_id() {
         return supplier_id;
     }
 
@@ -55,15 +57,15 @@ public class Supplier {
         return address;
     }
 
-    public LocalDateTime getCreated_at() {
+    public Date getCreated_at() {
         return created_at;
     }
 
-    public LocalDateTime getUpdated_at() {
+    public Date getUpdated_at() {
         return updated_at;
     }
 
-    public void setSupplier_id(long supplier_id) {
+    public void setSupplier_id(int supplier_id) {
         this.supplier_id = supplier_id;
     }
 
@@ -83,11 +85,11 @@ public class Supplier {
         this.address = address;
     }
 
-    public void setCreated_at(LocalDateTime created_at) {
+    public void setCreated_at(Date created_at) {
         this.created_at = created_at;
     }
 
-    public void setUpdated_at(LocalDateTime updated_at) {
+    public void setUpdated_at(Date updated_at) {
         this.updated_at = updated_at;
     }
 

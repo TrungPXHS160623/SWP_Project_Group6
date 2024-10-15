@@ -11,15 +11,15 @@ import java.util.Date;
  * @author Acer
  */
 public class ProductionBatch {
-    private long batchId;              // ID lô sản xuất
+    private int batchId;              // ID lô sản xuất
     private int productId;             // ID sản phẩm
-    private long importId;             // ID nhập hàng
+    private int importId;             // ID nhập hàng
     private String batchNumber;         // Số lô sản xuất
     private Date manufactureDate;       // Ngày sản xuất
     private Date expirationDate;        // Ngày hết hạn
     private boolean isActive;           // Trạng thái hoạt động của lô sản xuất
 
-    public ProductionBatch(long batchId, int productId, long importId, String batchNumber, Date manufactureDate, Date expirationDate, boolean isActive) {
+    public ProductionBatch(int batchId, int productId, int importId, String batchNumber, Date manufactureDate, Date expirationDate, boolean isActive) {
         this.batchId = batchId;
         this.productId = productId;
         this.importId = importId;
@@ -32,7 +32,7 @@ public class ProductionBatch {
     public ProductionBatch() {
     }
 
-    public long getBatchId() {
+    public int getBatchId() {
         return batchId;
     }
 
@@ -40,7 +40,7 @@ public class ProductionBatch {
         return productId;
     }
 
-    public long getImportId() {
+    public int getImportId() {
         return importId;
     }
 
@@ -60,7 +60,7 @@ public class ProductionBatch {
         return isActive;
     }
 
-    public void setBatchId(long batchId) {
+    public void setBatchId(int batchId) {
         this.batchId = batchId;
     }
 
@@ -68,7 +68,7 @@ public class ProductionBatch {
         this.productId = productId;
     }
 
-    public void setImportId(long importId) {
+    public void setImportId(int importId) {
         this.importId = importId;
     }
 

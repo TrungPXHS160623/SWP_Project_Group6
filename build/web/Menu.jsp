@@ -19,6 +19,9 @@
                     <a class="nav-link" href="manager">Quản lý Sản phẩm</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="importproduct">Nhập hàng</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="#">Tư vấn</a>
                 </li>
                 <li class="nav-item">

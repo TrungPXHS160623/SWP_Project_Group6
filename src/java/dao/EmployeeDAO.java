@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeDAO {
+
     Connection conn = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
@@ -27,7 +28,7 @@ public class EmployeeDAO {
             rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Employees(
-                        rs.getLong("employee_id"), // ID nhân viên
+                        rs.getInt("employee_id"), // ID nhân viên
                         rs.getString("employee_name"), // Tên nhân viên
                         rs.getString("PasswordHash"), // Mã băm mật khẩu
                         rs.getString("employee_email"), // Địa chỉ email
@@ -42,7 +43,8 @@ public class EmployeeDAO {
         }
         return list;
     }
-    
+
+
     // Lấy tất cả nhân viên đang bị vô hiệu hoá
     public List<Employees> getAllDeactiveEmployees() {
         List<Employees> list = new ArrayList<>();
@@ -53,7 +55,7 @@ public class EmployeeDAO {
             rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Employees(
-                        rs.getLong("employee_id"), // ID nhân viên
+                        rs.getInt("employee_id"), // ID nhân viên
                         rs.getString("employee_name"), // Tên nhân viên
                         rs.getString("PasswordHash"), // Mã băm mật khẩu
                         rs.getString("employee_email"), // Địa chỉ email
@@ -89,7 +91,7 @@ public class EmployeeDAO {
     }
 
     // Cập nhật nhân viên
-    public void updateEmployee(long employeeId, String employeeName, String passwordHash, String employeeEmail, String employeePhone, boolean isActive, int pharmacyId, int roleId) {
+    public void updateEmployee(int employeeId, String employeeName, String passwordHash, String employeeEmail, String employeePhone, boolean isActive, int pharmacyId, int roleId) {
         String query = "UPDATE Employees_Final SET employee_name = ?, PasswordHash = ?, employee_email = ?, employee_phone = ?, isActive = ?, pharmacyId = ?, roleId = ? WHERE employee_id = ?";
         try {
             conn = new DBContext().getConnection();
@@ -101,7 +103,7 @@ public class EmployeeDAO {
             ps.setBoolean(5, isActive);
             ps.setInt(6, pharmacyId);
             ps.setInt(7, roleId);
-            ps.setLong(8, employeeId);
+            ps.setInt(8, employeeId);
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -109,12 +111,12 @@ public class EmployeeDAO {
     }
 
     // Xóa nhân viên
-    public void deleteEmployee(long employeeId) {
+    public void deleteEmployee(int employeeId) {
         String query = "DELETE FROM Employees_Final WHERE employee_id = ?";
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
-            ps.setLong(1, employeeId);
+            ps.setInt(1, employeeId);
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -122,16 +124,16 @@ public class EmployeeDAO {
     }
 
     // Lấy nhân viên theo ID
-    public Employees getEmployeeById(long employeeId) {
+    public Employees getEmployeeById(int employeeId) {
         String query = "SELECT * FROM Employees_Final WHERE employee_id = ?";
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
-            ps.setLong(1, employeeId);
+            ps.setInt(1, employeeId);
             rs = ps.executeQuery();
             if (rs.next()) {
                 return new Employees(
-                        rs.getLong("employee_id"),
+                        rs.getInt("employee_id"),
                         rs.getString("employee_name"),
                         rs.getString("PasswordHash"),
                         rs.getString("employee_email"),
@@ -148,13 +150,13 @@ public class EmployeeDAO {
     }
 
     // Kích hoạt nhân viên
-    public void activateEmployee(long employeeId) {
+    public void activateEmployee(int employeeId) {
         String query = "UPDATE Employees_Final SET isActive = ? WHERE employee_id = ?";
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
             ps.setBoolean(1, true); // Kích hoạt
-            ps.setLong(2, employeeId);
+            ps.setInt(2, employeeId);
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -162,13 +164,13 @@ public class EmployeeDAO {
     }
 
     // Khóa nhân viên
-    public void deactivateEmployee(long employeeId) {
+    public void deactivateEmployee(int employeeId) {
         String query = "UPDATE Employees_Final SET isActive = ? WHERE employee_id = ?";
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
             ps.setBoolean(1, false); // Khóa
-            ps.setLong(2, employeeId);
+            ps.setInt(2, employeeId);
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -182,10 +184,10 @@ public class EmployeeDAO {
         System.out.println("Danh sách nhân viên:");
         List<Employees> employeesList = employeeDAO.getAllEmployees();
         for (Employees employee : employeesList) {
-            System.out.println("Employee ID: " + employee.getEmployee_id()+
-                               ", Employee Name: " + employee.getEmployee_name()+
-                               ", Email: " + employee.getEmployee_email()+
-                               ", Active: " + employee.getIsActive());
+            System.out.println("Employee ID: " + employee.getEmployee_id()
+                    + ", Employee Name: " + employee.getEmployee_name()
+                    + ", Email: " + employee.getEmployee_email()
+                    + ", Active: " + employee.getIsActive());
         }
 
 //        // Thêm một nhân viên mới
@@ -224,4 +226,3 @@ public class EmployeeDAO {
 //        }
     }
 }
-

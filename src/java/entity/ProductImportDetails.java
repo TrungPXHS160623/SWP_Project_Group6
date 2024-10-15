@@ -4,7 +4,7 @@
  */
 package entity;
 
-import java.math.BigDecimal;
+
 import java.util.Date;
 
 /**
@@ -12,12 +12,12 @@ import java.util.Date;
  * @author Acer
  */
 public class ProductImportDetails {
-    private long id;               // ID duy nhất cho chi tiết nhập kho
-    private long import_id;         // Liên kết tới đợt nhập kho
+    private int id;               // ID duy nhất cho chi tiết nhập kho
+    private int import_id;         // Liên kết tới đợt nhập kho
     private int product_id;         // Liên kết tới sản phẩm
     private int packaging_id;       // Liên kết tới loại bao bì (vỉ, viên, hộp)
-    private BigDecimal quantity;   // Số lượng theo đơn vị nhập (hộp, vỉ, viên)
-    private BigDecimal unitPrice;  // Giá đơn vị
+    private int quantity;   // Số lượng theo đơn vị nhập (hộp, vỉ, viên)
+    private float unitPrice;  // Giá đơn vị
     private String batchNumber;         // Số lô sản xuất
     private Date manufactureDate;       // Ngày sản xuất
     private Date expirationDate;        // Ngày hết hạn
@@ -25,7 +25,7 @@ public class ProductImportDetails {
     public ProductImportDetails() {
     }
 
-    public ProductImportDetails(long id, long import_id, int product_id, int packaging_id, BigDecimal quantity, BigDecimal unitPrice, String batchNumber, Date manufactureDate, Date expirationDate) {
+    public ProductImportDetails(int id, int import_id, int product_id, int packaging_id, int quantity, float unitPrice, String batchNumber, Date manufactureDate, Date expirationDate) {
         this.id = id;
         this.import_id = import_id;
         this.product_id = product_id;
@@ -37,11 +37,11 @@ public class ProductImportDetails {
         this.expirationDate = expirationDate;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public long getImport_id() {
+    public int getImport_id() {
         return import_id;
     }
 
@@ -53,11 +53,11 @@ public class ProductImportDetails {
         return packaging_id;
     }
 
-    public BigDecimal getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public BigDecimal getUnitPrice() {
+    public float getUnitPrice() {
         return unitPrice;
     }
 
@@ -73,11 +73,11 @@ public class ProductImportDetails {
         return expirationDate;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public void setImport_id(long import_id) {
+    public void setImport_id(int import_id) {
         this.import_id = import_id;
     }
 
@@ -89,11 +89,11 @@ public class ProductImportDetails {
         this.packaging_id = packaging_id;
     }
 
-    public void setQuantity(BigDecimal quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
-    public void setUnitPrice(BigDecimal unitPrice) {
+    public void setUnitPrice(float unitPrice) {
         this.unitPrice = unitPrice;
     }
 

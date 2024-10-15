@@ -4,25 +4,25 @@
  */
 package entity;
 
-import java.math.BigDecimal;
+
 
 /**
  *
  * @author Acer
  */
 public class ProductExportDetails {
-   private long id;               // ID duy nhất cho chi tiết xuất kho
-    private long exportId;         // Liên kết tới lần xuất kho
+   private int id;               // ID duy nhất cho chi tiết xuất kho
+    private int exportId;         // Liên kết tới lần xuất kho
     private int productId;         // Liên kết tới sản phẩm
     private int packagingId;       // Liên kết tới loại bao bì (vỉ, viên, hộp)
-    private BigDecimal quantity;   // Số lượng theo đơn vị nhập
-    private BigDecimal unitPrice;  // Đơn giá
+    private int quantity;   // Số lượng theo đơn vị nhập
+    private float unitPrice;  // Đơn giá
     
 
     public ProductExportDetails() {
     }
 
-    public ProductExportDetails(long id, long exportId, int productId, int packagingId, BigDecimal quantity, BigDecimal unitPrice) {
+    public ProductExportDetails(int id, int exportId, int productId, int packagingId, int quantity, float unitPrice) {
         this.id = id;
         this.exportId = exportId;
         this.productId = productId;
@@ -32,11 +32,11 @@ public class ProductExportDetails {
         
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public long getExportId() {
+    public int getExportId() {
         return exportId;
     }
 
@@ -48,21 +48,21 @@ public class ProductExportDetails {
         return packagingId;
     }
 
-    public BigDecimal getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public BigDecimal getUnitPrice() {
+    public float getUnitPrice() {
         return unitPrice;
     }
 
     
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public void setExportId(long exportId) {
+    public void setExportId(int exportId) {
         this.exportId = exportId;
     }
 
@@ -74,11 +74,11 @@ public class ProductExportDetails {
         this.packagingId = packagingId;
     }
 
-    public void setQuantity(BigDecimal quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
-    public void setUnitPrice(BigDecimal unitPrice) {
+    public void setUnitPrice(float unitPrice) {
         this.unitPrice = unitPrice;
     }
 
