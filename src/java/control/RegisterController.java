@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
@@ -38,8 +39,7 @@ public class RegisterController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-
+        response.setContentType("text/html;charset=UTF-8");  
     }
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -68,6 +68,10 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        List<String> errors = new ArrayList<>();
+        DAO dao = new DAO();
+
+        // Lấy thông tin từ request
         String fullName = request.getParameter("fullName");
         String username = request.getParameter("username");
         String dob = request.getParameter("dob");
@@ -75,58 +79,83 @@ public class RegisterController extends HttpServlet {
         String phone = request.getParameter("phone");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        String re_password = request.getParameter("re_password");
-        Customer customer = new Customer(0, fullName, username, dob, gender, phone, email, password);
+        String rePassword = request.getParameter("re_password");
 
-        PrintWriter out = response.getWriter();
-
-        DAO dao = new DAO();
-        List<Customer> list;
-        try {
-            list = dao.getCustomers();
-        } catch (Exception ex) {
-            Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
+        // Validate dữ liệu
+        if (!isValidFullName(fullName)) {
+            errors.add("Họ và tên không hợp lệ.");
         }
-                if (dao.checkUsernameExist(username)) {
-                    request.setAttribute("error", "This username is exist");
-                    request.getRequestDispatcher("Register.jsp").forward(request, response);
-                } else if (dao.checkEmailExist(email)) {
-                    request.setAttribute("error", "This email is already registered");
-                    request.getRequestDispatcher("Register.jsp").forward(request, response);
-                } else if (!password.equals(re_password)) {
-                    request.setAttribute("error", "Password not equal Repeat Password");
-                    request.getRequestDispatcher("Register.jsp").forward(request, response);
-                } else if (!dao.isValidDob(dob)) {
-                    request.setAttribute("error", "You must be 16 years old or more");
-                    request.getRequestDispatcher("Register.jsp").forward(request, response);
-                } 
-        if (!email.endsWith("@gmail.com")) {
-            request.setAttribute("error", "Email must be a gmail.com account");
-            request.getRequestDispatcher("Register.jsp").forward(request, response);
-        } else {
-            String code = getRandom();
-            SendEmail se = new SendEmail();
-            se.sendEmail(email, "Your code is :", code);
+        if (!isValidUsername(username)) {
+            errors.add("Tên đăng nhập không hợp lệ.");
+        } else if (username.length() > 25) {
+            errors.add("Tên đăng nhập không được dài quá 25 ký tự.");
+        } else if (dao.checkUsernameExist(username)) {
+            errors.add("Tên đăng nhập đã tồn tại.");
+        }
+        if (dao.checkEmailExist(email)) {
+            errors.add("Email đã được đăng ký.");
+        }
+        if (!password.equals(rePassword)) {
+            errors.add("Mật khẩu và xác nhận mật khẩu không khớp.");
+        }
+        if (!isValidPassword(password)) {
+            errors.add("Mật khẩu không hợp lệ.");
+        }
+        if (!email.endsWith("@gmail.com") || email.length() > 30) {
+            errors.add("Email phải là Gmail và không quá 30 ký tự.");
+        }
+        if (!isValidPhone(phone)) {
+            errors.add("Số điện thoại không hợp lệ.");
+        }
+        if (!dao.isValidDob(dob)) {
+            errors.add("Bạn phải từ 16 tuổi trở lên.");
+        }
+
+        // Nếu có lỗi, lưu lỗi vào session và chuyển hướng lại trang đăng ký
+        if (!errors.isEmpty()) {
             HttpSession session = request.getSession();
-            session.setAttribute("customer", customer);
-            session.setAttribute("code", code);
-
-            request.getRequestDispatcher("verifyemail.jsp").forward(request, response);
+            session.setAttribute("registerErrors", errors);
+            request.setAttribute("fullName", fullName);
+            request.setAttribute("username", username);
+            request.setAttribute("dob", dob);
+            request.setAttribute("gender", gender);
+            request.setAttribute("phone", phone);
+            request.setAttribute("email", email);
+            request.getRequestDispatcher("Register.jsp").forward(request, response);
+            return; // Dừng thực thi thêm
         }
+
+        // Tạo đối tượng Customer
+        Customer customer = new Customer(0, fullName, username, dob, gender, phone, email, password);
+        String code = getRandom();
+        SendEmail se = new SendEmail();
+        se.sendEmail(email, "Your code is :", code);
+        HttpSession session = request.getSession();
+        session.setAttribute("customer", customer);
+        session.setAttribute("code", code);
+
+        request.getRequestDispatcher("verifyemail.jsp").forward(request, response);
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+    // Các phương thức kiểm tra và xác thực
+    private boolean isValidFullName(String fullName) {
+        return fullName != null && fullName.length() <= 25 && fullName.matches("[a-zA-Z ]+")
+                && !fullName.contains("  ") && !fullName.startsWith(" ") && !fullName.endsWith(" ");
+    }
 
-    private String hashPassword(String password) {
-        return password;
+    private boolean isValidUsername(String username) {
+        return username != null && username.length() <= 25 && username.matches("[a-zA-Z0-9]+")
+                && !username.contains("  ") && !username.startsWith(" ") && !username.endsWith(" ");
+    }
+
+    private boolean isValidPassword(String password) {
+        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,20}$";
+        return password != null && password.matches(passwordPattern) && !password.contains(" ");
+    }
+
+    private boolean isValidPhone(String phone) {
+        String phonePattern = "^(84|0[3|5|7|8|9])+([0-9]{8,9})$";
+        return phone != null && phone.matches(phonePattern) && phone.length() <= 11;
     }
 
     private String getRandom() {
@@ -134,5 +163,9 @@ public class RegisterController extends HttpServlet {
         int number = rnd.nextInt(999999);
         return String.format("%06d", number);
     }
-
+    
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
 }

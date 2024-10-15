@@ -3,7 +3,8 @@
     Created on : Sep 25, 2024, 4:58:31 AM
     Author     : Acer
 --%>
-
+<%@ page import="java.util.List" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -127,7 +128,25 @@
         </style>
     </head>
     <body>
-
+        <% 
+    // Lấy thông báo lỗi từ session
+    List<String> registerErrors = (List<String>) session.getAttribute("registerErrors");
+    if (registerErrors != null && !registerErrors.isEmpty()) {
+        %>
+        <div class="alert alert-danger" style="padding: 15px; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 5px; margin-bottom: 20px;">
+            <h4 style="font-weight: bold; margin-bottom: 10px; color: #721c24;"><i class="fas fa-exclamation-circle"></i> Đã xảy ra lỗi:</h4>
+            <ul style="list-style-type: disc; padding-left: 20px;">
+                <c:forEach var="error" items="${registerErrors}">
+                    <li style="margin-bottom: 5px;">${error}</li>
+                </c:forEach>
+            </ul>
+        </div>
+        <%
+            // Xóa thông báo lỗi sau khi hiển thị
+            session.removeAttribute("registerErrors");
+        }
+        %>
+        
         <div class="register-container">
             <!-- Logo của nhà thuốc Long Châu -->
             <img src="https://vectorseek.com/wp-content/uploads/2023/10/FPT-Retail-Nha-thuoc-Long-Chau-Logo-Vector.svg-.png" alt="Nhà Thuốc Long Châu Logo">
@@ -135,46 +154,48 @@
             <form action="register" method="post">
                 <div class="input-group">
                     <i class="fas fa-user"></i>
-                    <input type="fullName" name="fullName" placeholder="Họ và tên khách hàng" required>                
+                    <input type="text" id="fullName" name="fullName" placeholder="Họ và tên khách hàng"
+                           value="${fullName != null ? fullName : ''}" required>
                 </div>
                 <div class="input-group">
                     <i class="fas fa-user"></i>
-                    <input type="username" name="username" placeholder="Tên đăng nhập" required>
+                    <input type="text" id="username" name="username" placeholder="Tên đăng nhập"
+                           value="${username != null ? username : ''}" required>
                 </div>
                 <label class="label-custom" style="margin-right: 330px; color: #000">Sinh nhật</label>
                 <div class="input-group">
                     <i class="fas fa-calendar"></i>
-                    <input type="date" name="dob" required>
+                    <input type="date" id="dob" name="dob" value="${dob != null ? dob : ''}" required>
                 </div>
-                <div class="input-group">    
+                <div class="input-group">
                     <label class="label-custom" style="margin-right: 10px; color: #000">Giới tính</label>
-                    <select name="gender" style="" required>
-                        <option value="1">Male</option>
-                        <option value="2">Female</option>
+                    <select name="gender" required>
+                        <option value="1" ${gender == 1 ? 'selected' : ''}>Nam</option>
+                        <option value="2" ${gender == 2 ? 'selected' : ''}>Nữ</option>
                     </select>
                 </div>
                 <div class="input-group">
                     <i class="fas fa-phone"></i>
-                    <input type="phone" name="phone" placeholder="Phone" required>
+                    <input type="tel" id="phone" name="phone" placeholder="Số điện thoại" 
+                           value="${phone != null ? phone : ''}" required>
                 </div>
                 <div class="input-group">
                     <i class="fas fa-envelope"></i>
-                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="email" id="email" name="email" placeholder="Email" 
+                           value="${email != null ? email : ''}" required>
                 </div>
                 <div class="input-group">
                     <i class="fas fa-lock"></i>
-                    <input type="password" name="password" placeholder="Mật khẩu" required>
+                    <input type="password" id="password" name="password" placeholder="Mật khẩu" required>
                 </div>
                 <div class="input-group">
                     <i class="fas fa-lock"></i>
-                    <input type="password" name="re_password" placeholder="Xác nhận mật khẩu" required>
+                    <input type="password" id="re_password" name="re_password" placeholder="Xác nhận mật khẩu" required>
                 </div>
-                <h6 style="padding: 5px 0; color: #F44336">${error}</h6>
                 <input type="submit" value="Đăng Ký">
             </form>
             <a href="rolesLogin.jsp">Đã có tài khoản? Đăng nhập</a>
         </div>
-
     </body>
 </html>
 

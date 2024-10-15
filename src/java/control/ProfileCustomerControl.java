@@ -41,14 +41,18 @@ public class ProfileCustomerControl extends HttpServlet {
         String phone = request.getParameter("phone");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        
+
         DAO dao = new DAO();
         HttpSession session = request.getSession();
         dao.updateProfile(fullName, username, dob, gender, phone, email);
         Customer c = new Customer(0, fullName, username, dob, gender, phone, email, password, LocalDateTime.MAX, LocalDateTime.MAX, gender);
-        
-        session.setAttribute("customer", c);
-        response.sendRedirect("home");
+
+        if (fullName.length() < 5) {
+            response.sendRedirect("profile-customer");
+        } else {
+            session.setAttribute("customer", c);
+            response.sendRedirect("home");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

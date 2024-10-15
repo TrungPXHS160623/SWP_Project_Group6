@@ -135,18 +135,26 @@ public class DAO {
         DAO dao = new DAO();
         List<Product> list = dao.getAllProduct();
         List<Category> listc = dao.getAllCategory();
+        String a = "buitienanh2305@gmail.com";
+        boolean x = dao.checkEmailExist(a);
         Product c = dao.getLastProduct();
 
-        for (Product o : list) {
-            System.out.println(o);
+        if (x == true) {
+            System.out.println("Wrong");
+        } else {
+            System.out.println("True");
         }
 
-        /*
-        for (Category o : listc) {
-            System.out.println(o);
-        }
-         */
-        //System.out.println(c);
+//        for (Product o : list) {
+//            System.out.println(o);
+//        }
+//
+//        /*
+//        for (Category o : listc) {
+//            System.out.println(o);
+//        }
+//         */
+//        //System.out.println(c);
     }
 
     public List<Product> getProductWithCategoryId(String cid) {
@@ -445,31 +453,31 @@ public class DAO {
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
-            rs = ps.executeQuery();
             ps.setString(1, username);
             rs = ps.executeQuery();
             while (rs.next()) {
                 return true;
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
-
         return false;
     }
 
     public boolean checkEmailExist(String email) {
-        String query = "SELECT * FROM [dbo].[Customers] WHERE [Email] = ?";
+        String query = "select * from [dbo].[Customers] where [Email] = ?";
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
-            rs = ps.executeQuery();
             ps.setString(1, email);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
                 return true;
             }
         } catch (Exception e) {
-        }
+            e.printStackTrace();
+        } 
         return false;
     }
 
@@ -538,7 +546,7 @@ public class DAO {
         // Kiểm tra khoảng cách thời gian (tính theo năm)
         long yearsBetween = ChronoUnit.YEARS.between(birthDate, currentDate);
 
-        return yearsBetween >= 13 && yearsBetween < 100;  // Người dùng phải ít nhất 16 tuổi
+        return yearsBetween >= 13 && yearsBetween < 100;  // Người dùng phải ít nhất 13 tuổi
     }
 
     public void updateProfile(String fullName, String username, String dob, int gender, String phone, String email) {
@@ -571,7 +579,7 @@ public class DAO {
             while (rs.next()) {
                 list.add(new Customer(rs.getInt(1),
                         rs.getString(2),
-                        rs.getString(3), 
+                        rs.getString(3),
                         rs.getString(4),
                         rs.getInt(5),
                         rs.getString(6),
@@ -581,4 +589,5 @@ public class DAO {
         }
         return list;
     }
+
 }
