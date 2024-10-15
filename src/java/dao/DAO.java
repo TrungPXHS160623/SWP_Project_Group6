@@ -13,6 +13,7 @@ import entity.Doctor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -590,4 +591,33 @@ public class DAO {
         return list;
     }
 
+    public Customer getCustomerByUsername(String username) {
+        Customer customer = null;
+        String query = "SELECT [FullName], [Username], [DateOfBirth], [Gender], [Phone], [Email]"
+                + "FROM [dbo].[Customers]"
+                + "WHERE [Username] = ?";
+        try (PreparedStatement st = conn.prepareStatement(query)) {
+            st.setString(1, username);
+
+            try (ResultSet rs = st.executeQuery()) {
+                if (rs.next()) {
+                    customer = mapResultSetToUser(rs);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return customer;
+    }
+
+    private Customer mapResultSetToUser(ResultSet rs) throws SQLException {
+        Customer customer = new Customer();
+        customer.setFullName(rs.getString("fullName"));
+        customer.setUsername(rs.getString("username"));
+        customer.setDob(rs.getString("dob"));
+        customer.setGender(rs.getInt("gender"));
+        customer.setPhone(rs.getString("phone"));
+        customer.setEmail(rs.getString("email"));
+        return customer;
+    }
 }

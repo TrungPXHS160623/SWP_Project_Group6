@@ -3,7 +3,7 @@
     Created on : Oct 9, 2024, 1:21:29 AM
     Author     : Admin
 --%>
-
+<%@ page import="java.util.List" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -30,12 +30,9 @@
                 padding: 40px;
                 box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
                 border-radius: 15px;
-                width: 400px;
+                width: 500px;
                 text-align: center;
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
+                position: relative;
             }
 
             .profile-container h1 {
@@ -127,9 +124,24 @@
                 padding: 8px;
                 box-sizing: border-box;
             }
+
+            .back-home {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+            }
+
+            .back-home a {
+                text-decoration: none;
+                color: #0072ff;
+            }
         </style>
     </head>
     <body>
+        <div class="back-home">
+            <a href="home">Back to Homepage</a>
+        </div>
+
         <div class="profile-container">
             <!-- Logo của nhà thuốc Long Châu -->
             <img src="https://vectorseek.com/wp-content/uploads/2023/10/FPT-Retail-Nha-thuoc-Long-Chau-Logo-Vector.svg-.png" alt="Nhà Thuốc Long Châu Logo">
@@ -137,39 +149,55 @@
             <form action="profile-customer" method="post">
                 <div class="input-group">
                     <i class="fas fa-user"></i>
-                    <input type="fullName" name="fullName" placeholder="Họ và tên khách hàng"
-                           value="${sessionScope.customer.fullName}" required>                
+                    <input type="text" name="fullName" placeholder="Họ và tên khách hàng" value="${sessionScope.customer.fullName}" required>                
                 </div>
                 <div class="input-group">
                     <i class="fas fa-user"></i>
-                    <input type="username" name="username" placeholder="Tên đăng nhập" 
-                           value="${sessionScope.customer.username}" required>
+                    <input type="text" name="username" placeholder="Tên đăng nhập" value="${sessionScope.customer.username}" required>
                 </div>
                 <label class="label-custom" style="margin-right: 330px; color: #000">Sinh nhật</label>
                 <div class="input-group">
                     <i class="fas fa-calendar"></i>
-                    <input type="date" name="dob" 
-                           value="${sessionScope.customer.dob}" required>
+                    <input type="date" name="dob" value="${sessionScope.customer.dob}" required>
                 </div>
                 <div class="input-group">    
                     <label class="label-custom" style="margin-right: 10px; color: #000">Giới tính</label>
-                    <select name="gender" style="" required>
-                        <option value="1">Male</option>
-                        <option value="2">Female</option>
+                    <select name="gender" required>
+                        <option value="1" ${sessionScope.customer.gender == 1 ? 'selected' : ''}>Nam</option>
+                        <option value="2" ${sessionScope.customer.gender == 2 ? 'selected' : ''}>Nữ</option>
                     </select>
                 </div>
                 <div class="input-group">
                     <i class="fas fa-phone"></i>
-                    <input type="phone" name="phone" placeholder="Phone" 
-                           value="${sessionScope.customer.phone}" required>
+                    <input type="tel" name="phone" placeholder="Số điện thoại" value="${sessionScope.customer.phone}" required>
                 </div>
                 <div class="input-group">
                     <i class="fas fa-envelope"></i>
-                    <input type="email" name="email" placeholder="Email"
-                           value="${sessionScope.customer.email}" required>
+                    <input type="email" name="email" placeholder="Email" value="${sessionScope.customer.email}" required>
                 </div>
+                <c:if test="${not empty sessionScope.profileErrors}">
+                    <div class="error" style="color: #F44336; padding-bottom: 10px" >
+                        <ul>
+                            <c:forEach items="${sessionScope.profileErrors}" var="error">
+                                <li>${error}</li>
+                                </c:forEach>
+                        </ul>
+                    </div>
+                </c:if>
+
+                <c:if test="${not empty sessionScope.profileMessage}">
+                    <div class="success" style="color: #28A745; padding-bottom: 10px">
+                        ${sessionScope.profileMessage}
+                    </div>
+                </c:if>
+
+                <c:if test="${not empty sessionScope.profileErrorMessage}">
+                    <div class="error" style="color: #F44336; padding-bottom: 10px">
+                        ${sessionScope.profileErrorMessage}
+                    </div>
+                </c:if>
                 <!-- Save changes button-->
-                <button class="btn btn-primary" type="submit">Save changes</button>
+                <input type="submit" value="Lưu thay đổi">
             </form>
         </div>
     </body>

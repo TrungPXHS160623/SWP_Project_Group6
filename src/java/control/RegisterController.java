@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import service.SendEmail;
 
 /**
@@ -82,7 +83,7 @@ public class RegisterController extends HttpServlet {
         String rePassword = request.getParameter("re_password");
 
         // Validate dữ liệu
-        if (!isValidFullName(fullName)) {
+        if (!isValidFullName(fullName) || !Pattern.matches("^[A-Za-zÀ-ỹ]+( [A-Za-zÀ-ỹ]+)*$", fullName) || fullName.length() > 25) {
             errors.add("Họ và tên không hợp lệ.");
         }
         if (!isValidUsername(username)) {
