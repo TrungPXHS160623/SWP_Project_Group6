@@ -15,6 +15,21 @@
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
         <link href="css/style.css" rel="stylesheet" type="text/css"/>
+        <script>
+            window.onload = function () {
+                setTimeout(function () {
+                    var successMessage = document.getElementById('successMessage');
+                    if (successMessage) {
+                        successMessage.style.transition = 'opacity 0.5s ease';
+                        successMessage.style.opacity = '0';
+
+                        setTimeout(function () {
+                            successMessage.style.display = 'none';
+                        }, 500);
+                    }
+                }, 5000);
+            };
+        </script>
         <style>
             .navbar {
                 background-color: #004080;
@@ -40,33 +55,49 @@
             .footer a {
                 color: white;
             }
+            .success-message {
+                color: green;
+                background-color: #e0ffe0;
+                padding: 10px;
+                border: 1px solid green;
+                margin: 10px 0;
+                border-radius: 5px;
+                transition: opacity 0.5s ease;
+            }
         </style>
     </head>
     <body>
+        <c:if test="${not empty sessionScope.message}">
+            <div class="success-message">
+                ${sessionScope.message}
+            </div>
+            <c:remove var="message" scope="session"/>
+        </c:if>
+
         <jsp:include page ="Menu.jsp"></jsp:include>
-        <!-- Breadcrumb -->
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="Home.jsp">Trang chủ</a></li>
-                            <li class="breadcrumb-item"><a href="#">Danh mục</a></li>
-                            <li class="breadcrumb-item active" aria-current="#">Thuốc bổ</li>
-                        </ol>
-                    </nav>
+            <!-- Breadcrumb -->
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="Home.jsp">Trang chủ</a></li>
+                                <li class="breadcrumb-item"><a href="#">Danh mục</a></li>
+                                <li class="breadcrumb-item active" aria-current="#">Thuốc bổ</li>
+                            </ol>
+                        </nav>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Main content -->
-        <div class="container">
-            <div class="row">
-                <!-- Sidebar for Categories -->
+            <!-- Main content -->
+            <div class="container">
+                <div class="row">
+                    <!-- Sidebar for Categories -->
                 <jsp:include page ="Left.jsp"></jsp:include>
 
-                <div class="col-sm-9">
-                    <div class="row">
+                    <div class="col-sm-9">
+                        <div class="row">
                         <c:forEach items="${ListProduct}" var="o">
                             <div class="col-12 col-md-6 col-lg-4">
                                 <div class="card">
@@ -90,6 +121,6 @@
                 </div>
             </div>
         </div>
-         <jsp:include page ="Footer.jsp"></jsp:include>               
+        <jsp:include page ="Footer.jsp"></jsp:include>               
     </body>
 </html>

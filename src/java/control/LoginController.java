@@ -43,20 +43,31 @@ public class LoginController extends HttpServlet {
         DAO dao = new DAO();
 
         try {
+//            if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
+//                // Giữ lại giá trị của username khi trường password rỗng hoặc cả hai trường rỗng
+//                request.setAttribute("username", username);
+//                request.setAttribute("error", "Không được để trống cả 2 ô");
+//                request.getRequestDispatcher("Login.jsp").forward(request, response);
+//                return;
+//            }
+
             Customer c = dao.checkLogin(username, password);
-            if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
-                request.getRequestDispatcher("login.jsp").forward(request, response);
-                return;
-            } 
-            
+
             if (c == null) {
-                request.setAttribute("error", "Wrong username or password");
-                request.getRequestDispatcher("login.jsp").forward(request, response);
+                // Giữ lại giá trị của username khi password sai
+                request.setAttribute("username", username);
+                request.setAttribute("error", "Tên đăng nhập hoặc mật khẩu sai");
+                request.getRequestDispatcher("Login.jsp").forward(request, response);
 
             } else {
-                // If the user credentials are valid, create a new session
+                // Đăng nhập thành công
                 HttpSession session = request.getSession();
                 session.setAttribute("customer", c);
+
+                // Thêm thông báo đăng nhập thành công
+                session.setAttribute("message", "Đăng nhập thành công!");
+
+                // Chuyển hướng đến trang home
                 request.getRequestDispatcher("home").forward(request, response);
             }
 

@@ -59,7 +59,6 @@
                     </li>
                 </ul>
             </c:if>
-
         </div>
     </div>
 </nav>
