@@ -14,7 +14,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +72,7 @@ public class ProfileCustomerControl extends HttpServlet {
         List<String> errors = new ArrayList<>();
         HttpSession session = request.getSession();
 
+        // Lấy thông tin từ form
         String fullName = request.getParameter("fullName").trim();
         String username = request.getParameter("username");
         String dob = request.getParameter("dob");
@@ -80,27 +80,33 @@ public class ProfileCustomerControl extends HttpServlet {
         String phone = request.getParameter("phone");
         String email = request.getParameter("email");
 
-        // Validate dữ liệu
+        // Kiểm tra dữ liệu đầu vào
         if (fullName == null || !Pattern.matches("^[A-Za-zÀ-ỹ]+( [A-Za-zÀ-ỹ]+)*$", fullName) || fullName.length() > 25) {
-            errors.add("Họ và tên không hợp lệ");
+            errors.add("Họ và tên không hợp lệ.");
         }
         if (username == null || username.length() > 25 || username.contains(" ")) {
             errors.add("Tên đăng nhập không hợp lệ.");
         }
+
         if (!isOlderThan13(dob)) {
             errors.add("Ngày sinh không hợp lệ. Bạn phải ít nhất 13 tuổi.");
         }
+
         if (phone == null || !phone.matches("^(84|0[3|5|7|8|9])([0-9]{8,9})$")) {
-            errors.add("Số điện thoại không hợp lệ. Vui lòng nhập đúng định dạng");
+            errors.add("Số điện thoại không hợp lệ. Vui lòng nhập đúng định dạng.");
         }
         if (email == null || email.length() > 30 || !email.endsWith("@gmail.com")) {
-            errors.add("Email không hợp lệ. Vui lòng nhập đúng định dạng gmail.");
+            errors.add("Email không hợp lệ. Vui lòng nhập đúng định dạng Gmail.");
         }
 
         // Nếu có lỗi, lưu lỗi vào session và chuyển hướng lại trang hồ sơ
         if (!errors.isEmpty()) {
             session.setAttribute("profileErrors", errors);
-            request.getRequestDispatcher("profilecustomer.jsp").forward(request, response);
+            try {
+                request.getRequestDispatcher("profilecustomer.jsp").forward(request, response);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
             return;
         }
 
@@ -111,7 +117,7 @@ public class ProfileCustomerControl extends HttpServlet {
 
             // Lấy lại thông tin khách hàng từ cơ sở dữ liệu
             Customer updatedCustomer = dao.getCustomerByUsername(username);
-            session.setAttribute("customer", updatedCustomer);
+            session.setAttribute("customer", updatedCustomer); 
 
             // Thông báo thành công
             session.setAttribute("profileMessage", "Cập nhật hồ sơ thành công!");
@@ -120,7 +126,11 @@ public class ProfileCustomerControl extends HttpServlet {
         } catch (Exception e) {
             // Thông báo lỗi nếu có ngoại lệ xảy ra
             session.setAttribute("profileErrorMessage", "Cập nhật hồ sơ thất bại: " + e.getMessage());
-            response.sendRedirect("profilecustomer.jsp");
+            try {
+                response.sendRedirect("profilecustomer.jsp");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -133,6 +143,6 @@ public class ProfileCustomerControl extends HttpServlet {
 
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "Servlet cập nhật thông tin hồ sơ khách hàng.";
     }
 }
